@@ -25,7 +25,7 @@ Language design and intelligent language features are now more important than th
 
 === What is a programming language?
 
-What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of given language, that just states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
+What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
 
 Source code itself is also nothing special. It is just bytes in a, in most cases, UTF-8 encoded text file, which are
 arranged in a manner so that they form commands which the runtime of a given language can understand.
@@ -83,10 +83,9 @@ When I speak of runtime levels, I refer to code that runs closer, or further awa
 A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather, translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
 
 ===== Examples
-
-* *GCC*: C{plus}{plus} -> Machine code
-* *Roslyn*: C# -> CIL (Common Intermediate Language, C# bytecode)
-* *javac*: Java -> Java Bytecode
+* *GCC* <<gcc>>: C{plus}{plus} -> Machine code
+* *Roslyn* <<roslyn>>: C# -> CIL (Common Intermediate Language, C# bytecode)
+* *javac* <<javac>>: Java -> Java Bytecode
 
 ==== Transpiled
 
@@ -94,18 +93,18 @@ A transpiler also scans the entire source code, but, instead of translating it i
 
 ===== Examples
 
-* *Babel*: ES6 -> JavaScript
-* *CoffeeScript*: CoffeeScript -> JavaScript
-* *emscripten* -> LLVM -> JavaScript
+* *Babel* <<babeljs>>: ES6 -> JavaScript
+* *CoffeeScript* <<coffeescript>>: CoffeeScript -> JavaScript
+* *emscripten* <<emscripten>>: LLVM -> JavaScript
 
 ==== Interpreted
 
 An interpreter is practically not comparable to a compiler or a transpiler. Instead of translating the language, an interpreter goes through the source code, line-by-line, and tries to figure out what the program is supposed to do as it goes.
 
 <<<
-Most of the time, the interpreter processes bytecode instead of source code. The interpreter is then formally known as a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode.
+Most of the time, the interpreter processes bytecode instead of source code. The interpreter is then formally known as a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode (which means that such an interpreter always has a compiler in its execution pipeline).
 
-An example for that process would be CPython.
+An example for that process would be CPython <<cpython>>.
 
 [graphviz, dot-example,svg]
 ----
@@ -116,7 +115,7 @@ digraph g {
 
 In recent years, people started to implement JIT (or Just-in-Time) compilers into their interpreters.
 
-These JIT compilers, compile certain parts of the program into machine code and interpret bytecode in other parts of the program.
+These JIT compilers can figure out what parts of a program are resource-intensive and then compile these parts of the program (at runtime, meaning while a program is being executed), from bytecode into machine code. Everything else is still being executed in a VM. Whenever the VM needs to call code that has been "JITed", it calls those, now native, functions.
 
 === Definition vs Implementation
 
@@ -126,9 +125,21 @@ But languages themselves, have nothing to do with speed. Language implementation
 
 One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would be, theoretically, possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
 
-In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy, or the C++ interpreter Cling)
+In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy <<pypy>>, or the C++ interpreter Cling <<cling>>)
 
-=== What is turing completeness?
+=== What is Turing completeness?
+
+For us to understand Turing completeness, we need to go back in time. To the 1940s to be precise. Back then, the second world war was at its hiatus, the Nazis seemed undefeatable. No one could predict their strategy. The only way to do it was cracking their encryption algorithm, the "ENIGMA". The challenge seemed so completely out of scope that for a while, British intelligence tried to just guess what the code might be. Until Alan Turing came along and created a computational device that was able to figure out the encryption keys of the "ENIGMA".
+
+Fascinated by the idea of a universal computing device, Turing first turned his attention to designing a general purpose computing machine in 1936. This was when Turing first formulated the idea of the "Universal Computing Machine" <<turing1>> (now simply known as a "Turing machine"). A mathematical model that defines an abstract computation machine. The machine works by modifying symbols on a strip of magnetic tape according to opcodes (a table of rules). Even tho the model was simple, in theory, it could simulate any given mathematical algorithm.
+
+Turing wasn't the only one who formulated such an idea. In 1931, Kurt Gödel had already published a similar mathematical formalism in his paper on the "Gödel's incompleteness theorems" <<goedel1>>.
+
+A Turing complete language describes a language that has, at least, the same computational capabilities as Alan Turing had with his "Turing machine". To put it simply:
+
+NOTE: A turing complete language can emulate a universal Turing machine.
+
+That also means that if two computational devices P and Q are equal if P can simulate Q and Q can simulate P. This is called Turing equivalence.
 
 == Different types of programming languages
 
@@ -232,44 +243,17 @@ Here one should write the summary of the paper. It's usually between 1 and 5 par
 
 <<<
 
-=== Resources
+[bibliography]
+== References
 
-.Sources
-[cols="40,20,40", options="header"]
-|===
-| URL
-| Date
-| Description
-
-| https://gcc.gnu.org/[GCC]
-| 2018-12-24
-| The GCC website
-
-| https://github.com/dotnet/roslyn[Roslyn]
-| 2018-12-24
-| The Roslyn GitHub page
-
-| https://en.wikipedia.org/wiki/Javac[javac]
-| 2018-12-24
-| The javac Wikipedia page
-
-| https://babeljs.io/[Babel]
-| 2018-12-24
-| The babel.js website
-
-| https://coffeescript.org/[CoffeeScript]
-| 2018-12-24
-| The CoffeeScript website
-
-| https://github.com/kripken/emscripten[emscripten]
-| 2018-12-24
-| The emscripten GitHub page
-
-| https://pypy.org/[PyPy]
-| 2018-12-24
-| The PyPy website
-
-| https://cdn.rawgit.com/root-project/cling/master/www/index.html[Cling]
-| 2018-12-24
-| The Cling website
-|===
+- [[[gcc,1]]] GCC, the GNU Compiler Collection - GNU Project - Free Software Foundation (FSF): https://gcc.gnu.org/
+- [[[roslyn,2]]] dotnet/roslyn: The Roslyn .NET compiler provides C# and Visual Basic languages with rich code analysis APIs: https://github.com/dotnet/roslyn
+- [[[javac,3]]] javac - Wikipedia: https://en.wikipedia.org/wiki/Javac
+- [[[babeljs,4]]] Babel · The compiler for next generation JavaScript: https://babeljs.io/
+- [[[coffeescript,5]]] CoffeeScript: https://coffeescript.org/
+- [[[emscripten,6]]] kripken/emscripten: Emscripten: An LLVM-to-JavaScript Compiler: https://github.com/kripken/emscripten
+- [[[cpython,7]]] python/cpython: The Python programming language: https://github.com/python/cpython
+- [[[pypy,8]]] PyPy - Welcome to PyPy: https://pypy.org/
+- [[[cling,9]]] Cling: https://cdn.rawgit.com/root-project/cling/master/www/index.html
+- [[[turing1,10]]] Turing, A. M. (1936). https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf[On Computable Numbers, With an Application to the Entscheidungsproblem]
+- [[[goedel1,11]]] Gödel, K. (1931). http://www.w-k-essler.de/pdfs/goedel.pdf[Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I], Monatshefte für Mathematik und Physik, v. 38 n. 1, pp. 173–198.
