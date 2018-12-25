@@ -67,7 +67,7 @@ next:
 
 ```
 
-would be valid source code (in fact, the language could even be considered turing complete). We won't be able to execute it, of course, as we don't have a runtime for that language, but it is a defined language, nonetheless.
+would be valid source code (in fact, the language could even be considered <<What is Turing completeness?,Turing complete>>). We won't be able to execute it, of course, as we don't have a runtime for that language, but it is a defined language, nonetheless.
 
 === Compiled vs Transpiled vs Interpreted
 
