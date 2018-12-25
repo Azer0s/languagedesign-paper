@@ -1,0 +1,259 @@
+= Language Design
+Ariel Simulevski <ariel@simulevski.at>
+v0.1, 2018-12-24
+:example-caption!:
+:media: prepress
+:icons: font
+
+ifdef::backend-pdf[:imagesoutdir: ../../../build/asciidoc/{backend}/images]
+ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
+
+// this renders a dynamic table of content
+:toc:
+
+== Abstract
+
+Here one should write the abstract of the paper. It is usually between 1 and 3 paragraphs long.
+
+== Introduction
+
+Here goes the introduction into the topic.
+
+<<<
+
+=== What is a programming language?
+
+What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of given language, that just states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
+
+Source code itself is also nothing special. It is just bytes in a, in most cases, UTF-8 encoded text file, which are
+arranged in a manner so that they form commands which the runtime of a given language can understand.
+
+Nearly everything can be considered a language. If we define a language so that
+
+* the character `*` followed by an identifier, creates a variable
+* the character `+` followed by an identifier, adds one to a variable
+* the characters `:=` preceeded by an identifier and followed by a numeric value or an identifier, assigned a value to a variable
+* the characters `+=` preceeded by an identifier and followed by a numeric value or an identifier, added a value to a variable
+* the character `=` preceeded by an identifier and followed by an identifier, compares two variables
+* an identifier followed by the character `:`, creates a label
+
+and
+
+* the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
+
+this:
+
+``` coffeescript
+
+*a
+a:=0
+
+*b
+b:=0
+
+loop:
+b=10
+< next
+
+a+=b
++b
+
+1=1
+< loop
+next:
+
+```
+
+would be valid source code (in fact, the language could even be considered turing complete). We won't be able to execute it, of course, as we don't have a runtime for that language, but it is a defined language, nonetheless.
+
+=== Compiled vs Transpiled vs Interpreted
+
+For a program written in a language to be executed, you need a runtime. A runtime is the basic execution model of any implementation of any language.
+
+[NOTE]
+====
+When I speak of runtime levels, I refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further from hardware".
+====
+
+==== Compiled
+
+A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather, translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
+
+===== Examples
+
+* *GCC*: C{plus}{plus} -> Machine code
+* *Roslyn*: C# -> CIL (Common Intermediate Language, C# bytecode)
+* *javac*: Java -> Java Bytecode
+
+==== Transpiled
+
+A transpiler also scans the entire source code, but, instead of translating it into lower level code, the transpiler translates it into another language on the same execution level. This language can than be compiled, transpiled or interpreted itself.
+
+===== Examples
+
+* *Babel*: ES6 -> JavaScript
+* *CoffeeScript*: CoffeeScript -> JavaScript
+* *emscripten* -> LLVM -> JavaScript
+
+==== Interpreted
+
+An interpreter is practically not comparable to a compiler or a transpiler. Instead of translating the language, an interpreter goes through the source code, line-by-line, and tries to figure out what the program is supposed to do as it goes.
+
+Most of the time, the interpreter processes bytecode instead of source code. The interpreter is then formally known as a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode.
+
+An example for that process would be CPython.
+
+[graphviz, dot-example, svg]
+----
+digraph g {
+    ".py - Python source code" -> ".pyc - Python bytecode" -> ".pyc executed in CPython VM"
+}
+----
+
+In recent years, people started to implement JIT (or Just-in-Time) compilers into their interpreters.
+
+These JIT compilers, compile certain parts of the program into machine code and interpret bytecode in other parts of the program.
+
+=== Definition vs Implementation
+
+Before we start, we first need to understand the difference between language definition and language implementation. These two are often confused and thus, people say things like "C{plus}{plus} is a fast language" or "Python is really slow".
+
+But languages themselves, have nothing to do with speed. Language implementations do. Of course, certain languages tend to encourage certain runtime systems, while language constructs of others might make it harder to have a faster runtime. But, in theory, every language can be as fast as any other.
+
+One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would be, theoretically, possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
+
+In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy, or the C++ interpreter Cling)
+
+== What makes a language a...
+
+=== ...good language?
+
+Content of chapter 2.
+
+=== ...bad language?
+
+Content of chapter 3.
+
+== How to write good languages
+
+Content of chapter 4.
+
+== The three rules of good language design
+
+=== Simplicity
+
+=== Consistency
+
+=== Explicitness
+
+We all love not having to write a lot of code and just letting the runtime guess what we could have meant,
+but being in-explicit, just for the sake of writing code that has a couple fewer bytes, is no good.
+
+A compiler could, in theory, differentiate between an `=` in an assignment and as an equality comparison operator.
+
+That means, that a language could exist where this:
+
+``` python
+a = 10
+
+if a = 10:
+    print("a is 10")
+```
+
+is valid code. And with a decent enough recursive descent parser, we'd be able to make something like this valid.
+
+== Adding a feature to a language
+
+=== Feature is consistent
+
+=== Feature is inconsistent but fits in the languages look and feel
+
+=== Feature is inconsistent and doesn't fit
+
+== Writing our own mini language
+
+Content of chapter 6.
+
+=== Definiton
+
+Content of chapter 7.
+
+=== Lexer
+
+Content of chapter 8.
+
+=== Parser
+
+Content of chapter 9.
+
+=== Setup
+
+For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
+for both the setup and the programming part. My editor of choice will be VSCode with the following extensions:
+
+* dwd
+* wdwd
+
+==== Packages
+
+``` shell
+
+sudo apt install flex bison make gcc g++ -y
+
+```
+
+== Lex/Yacc hands on
+
+Content of chapter 11.
+
+== A simple interpreter
+
+Content of chapter 12.
+
+== Summary
+
+Here one should write the summary of the paper. It's usually between 1 and 5 paragraphs long.
+
+<<<
+
+=== Resources
+
+.Sources
+[cols="40,20,40", options="header"]
+|===
+| URL
+| Date
+| Description
+
+| https://gcc.gnu.org/[GCC]
+| 2018-12-24
+| The GCC website
+
+| https://github.com/dotnet/roslyn[Roslyn]
+| 2018-12-24
+| The Roslyn GitHub page
+
+| https://en.wikipedia.org/wiki/Javac[javac]
+| 2018-12-24
+| The javac Wikipedia page
+
+| https://babeljs.io/[Babel]
+| 2018-12-24
+| The babel.js website
+
+| https://coffeescript.org/[CoffeeScript]
+| 2018-12-24
+| The CoffeeScript website
+
+| https://github.com/kripken/emscripten[emscripten]
+| 2018-12-24
+| The emscripten GitHub page
+
+| https://pypy.org/[PyPy]
+| 2018-12-24
+| The PyPy website
+
+| https://cdn.rawgit.com/root-project/cling/master/www/index.html[Cling]
+| 2018-12-24
+| The Cling website
+|===
