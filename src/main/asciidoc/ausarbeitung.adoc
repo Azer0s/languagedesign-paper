@@ -218,8 +218,8 @@ Content of chapter 9.
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
 for both the setup and the programming part. My editor of choice will be VSCode with the following extensions:
 
-* dwd
-* wdwd
+* -
+* -
 
 ==== Packages
 
