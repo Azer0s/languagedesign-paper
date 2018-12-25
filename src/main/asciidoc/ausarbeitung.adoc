@@ -17,7 +17,9 @@ Here one should write the abstract of the paper. It is usually between 1 and 3 p
 
 == Introduction
 
-Here goes the introduction into the topic.
+The list of general purpose programming languages has been growing recently. With it, a staggering amount of immature and, generally, out of place languages. Of course, there are some really good new languages (Kotlin, Go, Rust), but others (such as Solidity, JavaScript or Python) have features or design flaws that make them seem out of place or unliked by some.
+
+Language design and intelligent language features are now more important than they've ever been. With the amount of languages out there, creating a new language with features that sets it apart and doesn't make it seem "ugly" or "irrelevant" is quite a challenge. This paper will aim to introduce you into language- and language-feature design.
 
 <<<
 
@@ -37,6 +39,7 @@ Nearly everything can be considered a language. If we define a language so that
 * the character `=` preceeded by an identifier and followed by an identifier, compares two variables
 * an identifier followed by the character `:`, creates a label
 
+<<<
 and
 
 * the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
@@ -74,7 +77,7 @@ For a program written in a language to be executed, you need a runtime. A runtim
 ====
 When I speak of runtime levels, I refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further from hardware".
 ====
-
+<<<
 ==== Compiled
 
 A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather, translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
@@ -99,11 +102,12 @@ A transpiler also scans the entire source code, but, instead of translating it i
 
 An interpreter is practically not comparable to a compiler or a transpiler. Instead of translating the language, an interpreter goes through the source code, line-by-line, and tries to figure out what the program is supposed to do as it goes.
 
+<<<
 Most of the time, the interpreter processes bytecode instead of source code. The interpreter is then formally known as a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode.
 
 An example for that process would be CPython.
 
-[graphviz, dot-example, svg]
+[graphviz, dot-example,svg]
 ----
 digraph g {
     ".py - Python source code" -> ".pyc - Python bytecode" -> ".pyc executed in CPython VM"
@@ -123,6 +127,18 @@ But languages themselves, have nothing to do with speed. Language implementation
 One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would be, theoretically, possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
 
 In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy, or the C++ interpreter Cling)
+
+=== What is turing completeness?
+
+== Different types of programming languages
+
+Before we get into actually creating a programming language, we need to know what kind of language we want. We can generally differentiate into three different kinds of programming languages:
+
+=== Procedural
+
+=== Object oriented
+
+=== Functional
 
 == What makes a language a...
 
@@ -160,7 +176,7 @@ if a = 10:
     print("a is 10")
 ```
 
-is valid code. And with a decent enough recursive descent parser, we'd be able to make something like this valid.
+is valid code. And with a decent enough recursive descent parser, we'd be able to make something like this valid. Which certainly doesn't mean that we should.
 
 == Adding a feature to a language
 
