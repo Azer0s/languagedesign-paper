@@ -131,7 +131,7 @@ In fact, there are many non-reference implementations of languages out there (li
 
 For us to understand Turing completeness, we need to go back in time. To the 1940s to be precise. Back then, the second world war was at its hiatus, the Nazis seemed undefeatable. No one could predict their strategy. The only way to do it was cracking their encryption algorithm, the "ENIGMA". The challenge seemed so completely out of scope that for a while, British intelligence tried to just guess what the code might be. Until Alan Turing came along and created a computational device that was able to figure out the encryption keys of the "ENIGMA".
 
-Fascinated by the idea of a universal computing device, Turing first turned his attention to designing a general purpose computing machine in 1936. This was when Turing first formulated the idea of the "Universal Computing Machine" <<turing1>> (now simply known as a "Turing machine"). A mathematical model that defines an abstract computation machine. The machine works by modifying symbols on a strip of tape according to opcodes (a table of rules). Even tho the model was simple, it could, in theory, simulate any given mathematical algorithm.
+Fascinated by the idea of a universal computing device, Turing first turned his attention to designing a general purpose computing machine in 1936. This was when Turing first formulated the idea of the "Universal Computing Machine" <<turing1>> (now simply known as a "Turing machine"). A mathematical model that defines an abstract computation device. The machine works by modifying symbols on a strip of tape according to opcodes (a table of rules). Even thogh the model was simple, it could, in theory, simulate any given mathematical algorithm.
 
 Turing wasn't the only one who formulated such an idea. In 1931, Kurt Gödel had already published a similar mathematical formalism in his paper on the "Gödel's incompleteness theorems" <<goedel1>>.
 
@@ -139,18 +139,45 @@ A Turing complete language describes a language that has, at least, the same com
 
 NOTE: A turing complete language can emulate a universal Turing machine.
 
-That also means that if two computational devices P and Q are equal if P can simulate Q and Q can simulate P. This is called Turing equivalence.
+That also means that two computational devices P and Q are equal if P can simulate Q and Q can simulate P. This is called Turing equivalence.
 
 == Different types of programming languages
 
 Before we get into actually creating a programming language, we need to know what kind of language we want. We can generally differentiate into three different kinds of programming languages:
 
+NOTE: A programming paradigm is a style of programming. It is a way of thinking about a solution. Programming paradigms do not refer to a specific language, but rather to a type of programming language (to a way to program).
+
 === Procedural
+
+According to most people, procedural programming is the most basic form programming paradigm. In a procedural language, the programmer describes what the program is supposed to do step-by-step. There are basic procedures, known as subroutines or functions, and more often that not, one will be able to define data structures in a procedural language, but that is as feature-rich as it gets.
+
+==== Examples
+
+* C
+* Fortran
+* Bash
 
 === Object oriented
 
+Object oriented programming, OOP for short, builds on top of procedural programming. The central programming paradigm in OOP is based on the concepts of objects. These objects can contain data or procedures. When a procedure is associated with an object, it is referred to as a method.
+
+==== Examples
+
+* C{plus}{plus}
+* Java
+* Python
+
 === Functional
 
+Functional programming aims to model a program as the evaluation of mathematical functions. Generally, state-changing and mutability of data is avoided. One of the central programming paradigms is currying <<currying>>. Currying, which was invented by Moses Schönfinkel in 1928 and named after Haskell Brooks Curry, a famous mathematician, is about passing data to a function to generate another function as a result. This resulting function can then be used to do other calculations. Since mutability and state-changing is avoided, functions should not have any shared state or side-effects.
+
+==== Examples
+
+* F#
+* Haskell
+* Clojure
+
+<<<
 == What makes a language a...
 
 === ...good language?
@@ -257,3 +284,4 @@ Here one should write the summary of the paper. It's usually between 1 and 5 par
 - [[[cling,9]]] Cling: https://cdn.rawgit.com/root-project/cling/master/www/index.html
 - [[[turing1,10]]] Turing, A. M. (1936). https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf[On Computable Numbers, With an Application to the Entscheidungsproblem]
 - [[[goedel1,11]]] Gödel, K. (1931). http://www.w-k-essler.de/pdfs/goedel.pdf[Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I], Monatshefte für Mathematik und Physik, v. 38 n. 1, pp. 173–198.
+- [[[currying,12]]] Schönfinkel, M. (1928). http://www.cip.ifi.lmu.de/~langeh/test/1924%20-%20Schoenfinkel%20-%20Ueber%20die%20Bausteine%20der%20mathematischen%20Logik.pdf[Über die Bausteine der mathematischen Logik], Mathematische Annalen, v. 92 n. 1, pp. 305-316
