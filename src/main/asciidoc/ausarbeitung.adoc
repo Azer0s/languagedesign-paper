@@ -102,7 +102,7 @@ A transpiler also scans the entire source code, but, instead of translating it i
 An interpreter is practically not comparable to a compiler or a transpiler. Instead of translating the language, an interpreter goes through the source code, line-by-line, and tries to figure out what the program is supposed to do as it goes.
 
 <<<
-Most of the time, the interpreter processes bytecode instead of source code. The interpreter is then formally known as a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode (which means that such an interpreter always has a compiler in its execution pipeline).
+In some cases, the interpreter processes bytecode instead of source code. An interpreter that interprets bytecode is called a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode (which means that such an interpreter always has a compiler in its execution pipeline).
 
 An example for that process would be CPython <<cpython>>.
 
