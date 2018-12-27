@@ -4,6 +4,7 @@ v0.1, 2018-12-24
 :example-caption!:
 :media: prepress
 :icons: font
+:source-highlighter: rouge
 
 ifdef::backend-pdf[:imagesoutdir: ../../../build/asciidoc/{backend}/images]
 ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
@@ -356,11 +357,11 @@ sudo apt install flex bison make gcc g++ -y
 
 == Lex/Yacc hands on
 
-Content of chapter 11.
+//TODO
 
 == A simple interpreter
 
-Content of chapter 12.
+//TODO
 
 == Summary
 
