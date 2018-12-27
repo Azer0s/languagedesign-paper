@@ -21,8 +21,6 @@ The list of general purpose programming languages has been growing recently. Wit
 
 Language design and intelligent language features are now more important than they've ever been. With the amount of languages out there, creating a new language with features that sets it apart and doesn't make it seem "ugly" or "irrelevant" is quite a challenge. This paper will aim to introduce you into language- and language-feature design.
 
-<<<
-
 === What is a programming language?
 
 What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
@@ -39,7 +37,6 @@ Nearly everything can be considered a language. If we define a language so that
 * the character `=` preceeded by an identifier and followed by an identifier, compares two variables
 * an identifier followed by the character `:`, creates a label
 
-<<<
 and
 
 * the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
@@ -77,7 +74,7 @@ For a program written in a language to be executed, you need a runtime. A runtim
 ====
 When I speak of runtime levels, I refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further from hardware".
 ====
-<<<
+
 ==== Compiled
 
 A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather, translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
@@ -101,12 +98,12 @@ A transpiler also scans the entire source code, but, instead of translating it i
 
 An interpreter is practically not comparable to a compiler or a transpiler. Instead of translating the language, an interpreter goes through the source code, line-by-line, and tries to figure out what the program is supposed to do as it goes.
 
-<<<
 In some cases, the interpreter processes bytecode instead of source code. An interpreter that interprets bytecode is called a virtual machine (or VM for short). When an interpreter processes bytecode, it first needs to compile whatever language it interprets into the bytecode (which means that such an interpreter always has a compiler in its execution pipeline).
 
 An example for that process would be CPython <<cpython>>.
 
-[graphviz, dot-example,svg]
+.Python source code to execution lifecycle
+[graphviz, python-conversion,svg]
 ----
 digraph g {
     ".py - Python source code" -> ".pyc - Python bytecode" -> ".pyc executed in CPython VM"
@@ -122,6 +119,8 @@ These JIT compilers can figure out what parts of a program are resource-intensiv
 Before we start, we first need to understand the difference between language definition and language implementation. These two are often confused and thus, people say things like "C{plus}{plus} is a fast language" or "Python is really slow".
 
 But languages themselves, have nothing to do with speed. Language implementations do. Of course, certain languages tend to encourage certain runtime systems, while language constructs of others might make it harder to have a faster runtime. But, in theory, every language can be as fast as any other.
+
+NOTE: The reference implementation is the implementation made by the creator of a language. It, usually, gets new language features first and is always compliant with the standard (because it is the standard).
 
 One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would be, theoretically, possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
 
@@ -140,6 +139,10 @@ A Turing complete language describes a language that has, at least, the same com
 NOTE: A turing complete language can emulate a universal Turing machine.
 
 That also means that two computational devices P and Q are equal if P can simulate Q and Q can simulate P. This is called Turing equivalence.
+
+=== The EBNF (Extended Backus-Naur-Form)
+
+//TODO
 
 == Different types of programming languages
 
@@ -177,26 +180,17 @@ Functional programming aims to model a program as the evaluation of mathematical
 * Haskell
 * Clojure
 
-<<<
-== What makes a language a...
-
-=== ...good language?
-
-Content of chapter 2.
-
-=== ...bad language?
-
-Content of chapter 3.
-
-== How to write good languages
-
-Content of chapter 4.
-
 == The three rules of good language design
+
+//TODO
 
 === Simplicity
 
+//TODO
+
 === Consistency
+
+//TODO
 
 === Explicitness
 
@@ -216,37 +210,141 @@ if a = 10:
 
 is valid code. And with a decent enough recursive descent parser, we'd be able to make something like this valid. Which certainly doesn't mean that we should.
 
+== How to write a programming language?
+
+Now that we know the rules to good language design, and know what not to do when developing a programming language, we can start with writing our own little language.
+
+=== Pre-requirements
+
+Before we start writing your programming language, we need to ask ourselves some questions. This will make the process of conceptualizing features and actually developing our language easier and will give us a clear definition as to what we actually want to achieve.
+
+==== Technical aspects
+
+===== What kind of programming language is it?
+
+It is generally agreed upon, that procedural languages are the easiest to develop. There are no classes, interfaces or other code abstractions (like polymorphism). Functional constructs, such as currying, are also not supported. Simply put: there are less features one has to support, thus, the language itself is not as complicated.
+
+Object oriented or functional language are both harder to develop and to conceptualize, but are often far more powerful than procedural ones.
+
+===== Is it compiled or interpreted?
+
+The question, whether your language should be compiled or interpreted regards your reference implementation. While compiling tends to have greatly improved performance over interpreted languages, interpreting a language comes with higher flexibility.
+
+For a reference implementation, interpreting a language makes more sense. Interpreters often have a bigger feature set and are easier to debug than compilers, thus making them better for trying out a language. footnote:[Personal opinion]
+
+==== Non-technical aspects
+
+===== Why are you writing it?
+
+As mentioned in the introduction, the list of programming languages is nearly endless. There is a programming language for almost every use-case out there. So why write a new one?
+
+There is no right or wrong to this question. The answer "Just for fun" is as correct as "Because I thougt of a new language feature that will revolutionize how we program". Nevertheless, it is of utmost importance that you ask yourself that. That is, because developing a programming language is all about focus. It is about focusing on the thing you want your language to do.
+
+If your language is designed for a certain thing, trying to make it do something completely different will just complicate the issue and unless you're either really lucky or really good, you'll end up with something extremely complex.
+
+===== Who are you writing it for?
+
+Knowing your user base is always important. Whether you develop an online shop or a programming language doesn't really matter. What does matter is that you know who will be using your language. Writing a language for statistical computing, like R <<r>>, for instance, is something completely different from writing a general purpose programming language.
+
+While R mostly used by students or scientists, a language like C# is mostly used by software engineers. R doesn't need to have the same enterprise capabilities like C# and C# doesn't need to have the same ability to express complicated mathematical formulae, like R does.
+
+=== Developing a language
+
+//TODO
+
+==== Giving the language a name
+
+//TODO
+
+==== Defining the language
+
+//TODO
+
+==== Defining the feature set of the language
+
+//TODO
+
 == Adding a feature to a language
 
-=== Feature is consistent
+Adding features to a language is more complicated than it appears to be. Adding too many features might make the language cluttered and unusable. Certain features might not look right in the language (from an aesthetic standpoint, that is) and others might just not be technically possible.
 
-=== Feature is inconsistent but fits in the languages look and feel
+To add a feature, we first need to define it. Say we want to add pipelines to the C# programming language.
 
-=== Feature is inconsistent and doesn't fit
+We can't implement this feature by utilizing existing functionalities as there are no macros in C#, so we need to define a new operator. Let's take the well known `|>` operator from F#. Now that we know what we're going to add into our language, we need to write a basic EBNF for that.
+
+``` ebnf
+statements = { statement } ;
+statement =  pipeline | ... ;
+pipeline = statement, "|>", statement ;
+```
+
+With our EBNF ready, we need to write a code sample with our feature as the focus.
+
+``` java
+
+Console.ReadLine();
+    |> File.ReadAllBytes
+    |> SHA1.Create().ComputeHash
+    |> BitConverter.ToString
+    |> Console.WriteLine;
+
+```
+
+Before we implement our feature, we need to answer some questions.
+
+.Flowgraph for implementing a new language feature
+[graphviz,Design-feature-graph, svg]
+----
+digraph g {
+    "Design feature" ->
+
+    "Feature fits in the languages look and feel?"
+
+    "Feature fits in the languages look and feel?" -> "Yes, it does" -> Implement
+    "Feature fits in the languages look and feel?" -> "No, it does not" -> "Feature is necesary?"
+
+    "Feature is necesary?" -> "Yes, it is" -> "Feature can be redesigned?"
+    "Feature is necesary?" -> "No, but I want it" -> "Design feature"
+    "Feature is necesary?" -> "No, it is not" -> "Discard feature"
+
+    "Feature can be redesigned?" -> "Yes, it can" -> "Design feature"
+    "Feature can be redesigned?" -> "No, it can not" -> "Implement"
+}
+----
+
+For our new C# feature, this is fairly trivial. Our new language feature does, in fact, fit in the languages look and feel. Therefore, we can implement it.
+
+If it didn't fit, we'd have to ask ourselves if the feature is necessary and if there is another way to solve the problem we're solving with this feature (even if said way is syntactly less pleasing). If that were the case, we could either discard the feature or redesign it.
+
+If the feature was necessary, and can simply not be redesigned (this mostly happens because of other  design flaws in a language), we'd have to implement the feature to our best of knowledge and belief.
 
 == Writing our own mini language
 
-Content of chapter 6.
+//TODO
 
 === Definiton
 
-Content of chapter 7.
+//TODO
 
 === Lexer
 
-Content of chapter 8.
+//TODO
 
 === Parser
 
-Content of chapter 9.
+//TODO
 
 === Setup
 
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
 for both the setup and the programming part. My editor of choice will be VSCode with the following extensions:
 
-* -
-* -
+* EBNF Tools <<ebnftools>>
+* Lex Flex Yacc Bison <<lexflexyaccbison>>
+
+and
+
+* C/C++ <<cppcode>>
 
 ==== Packages
 
@@ -285,3 +383,7 @@ Here one should write the summary of the paper. It's usually between 1 and 5 par
 - [[[turing1,10]]] Turing, A. M. (1936). https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf[On Computable Numbers, With an Application to the Entscheidungsproblem]
 - [[[goedel1,11]]] Gödel, K. (1931). http://www.w-k-essler.de/pdfs/goedel.pdf[Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I], Monatshefte für Mathematik und Physik, v. 38 n. 1, pp. 173–198.
 - [[[currying,12]]] Schönfinkel, M. (1928). http://www.cip.ifi.lmu.de/~langeh/test/1924%20-%20Schoenfinkel%20-%20Ueber%20die%20Bausteine%20der%20mathematischen%20Logik.pdf[Über die Bausteine der mathematischen Logik], Mathematische Annalen, v. 92 n. 1, pp. 305-316
+- [[[r,13]]] R: The R Project for Statistical Computing: https://www.r-project.org/
+- [[[ebnftools,14]]] EBNF Tools - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=igochkov.vscode-ebnf
+- [[[lexflexyaccbison,15]]] Lex Flex Yacc Bison - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=faustinoaq.lex-flex-yacc-bison
+- [[[cppcode,16]]] C/C++ - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
