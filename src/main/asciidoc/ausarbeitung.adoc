@@ -22,6 +22,7 @@ The list of general purpose programming languages has been growing recently. Wit
 
 Language design and intelligent language features are now more important than they've ever been. With the amount of languages out there, creating a new language with features that sets it apart and doesn't make it seem "ugly" or "irrelevant" is quite a challenge. This paper will aim to introduce you into language- and language-feature design.
 
+<<<
 === What is a programming language?
 
 What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
@@ -38,6 +39,7 @@ Nearly everything can be considered a language. If we define a language so that
 * the character `=` preceeded by an identifier and followed by an identifier, compares two variables
 * an identifier followed by the character `:`, creates a label
 
+<<<
 and
 
 * the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
@@ -76,6 +78,7 @@ For a program written in a language to be executed, you need a runtime. A runtim
 When I speak of runtime levels, I refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further from hardware".
 ====
 
+<<<
 ==== Compiled
 
 A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather, translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
@@ -114,6 +117,11 @@ digraph g {
 In recent years, people started to implement JIT (or Just-in-Time) compilers into their interpreters.
 
 These JIT compilers can figure out what parts of a program are resource-intensive and then compile these parts of the program (at runtime, meaning while a program is being executed), from bytecode into machine code. Everything else is still being executed in a VM. Whenever the VM needs to call code that has been "JITed", it calls those, now native, functions.
+
+==== Examples
+
+* *V8* <<v8>>: JavaScript
+* *HHVM* <<hhvm>>: Hack & PHP
 
 === Definition vs Implementation
 
@@ -378,13 +386,15 @@ Here one should write the summary of the paper. It's usually between 1 and 5 par
 - [[[babeljs,4]]] Babel · The compiler for next generation JavaScript: https://babeljs.io/
 - [[[coffeescript,5]]] CoffeeScript: https://coffeescript.org/
 - [[[emscripten,6]]] kripken/emscripten: Emscripten: An LLVM-to-JavaScript Compiler: https://github.com/kripken/emscripten
-- [[[cpython,7]]] python/cpython: The Python programming language: https://github.com/python/cpython
-- [[[pypy,8]]] PyPy - Welcome to PyPy: https://pypy.org/
-- [[[cling,9]]] Cling: https://cdn.rawgit.com/root-project/cling/master/www/index.html
-- [[[turing1,10]]] Turing, A. M. (1936). https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf[On Computable Numbers, With an Application to the Entscheidungsproblem]
-- [[[goedel1,11]]] Gödel, K. (1931). http://www.w-k-essler.de/pdfs/goedel.pdf[Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I], Monatshefte für Mathematik und Physik, v. 38 n. 1, pp. 173–198.
-- [[[currying,12]]] Schönfinkel, M. (1928). http://www.cip.ifi.lmu.de/~langeh/test/1924%20-%20Schoenfinkel%20-%20Ueber%20die%20Bausteine%20der%20mathematischen%20Logik.pdf[Über die Bausteine der mathematischen Logik], Mathematische Annalen, v. 92 n. 1, pp. 305-316
-- [[[r,13]]] R: The R Project for Statistical Computing: https://www.r-project.org/
-- [[[ebnftools,14]]] EBNF Tools - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=igochkov.vscode-ebnf
-- [[[lexflexyaccbison,15]]] Lex Flex Yacc Bison - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=faustinoaq.lex-flex-yacc-bison
-- [[[cppcode,16]]] C/C++ - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+- [[[v8, 7]]] V8 JavaScript Engine: https://chromium.googlesource.com/v8/v8.git
+- [[[hhvm,8]]] facebook/hhvm: A virtual machine for executing programs written in Hack: https://github.com/facebook/hhvm
+- [[[cpython,9]]] python/cpython: The Python programming language: https://github.com/python/cpython
+- [[[pypy,10]]] PyPy - Welcome to PyPy: https://pypy.org/
+- [[[cling,11]]] Cling: https://cdn.rawgit.com/root-project/cling/master/www/index.html
+- [[[turing1,12]]] Turing, A. M. (1936). https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf[On Computable Numbers, With an Application to the Entscheidungsproblem]
+- [[[goedel1,13]]] Gödel, K. (1931). http://www.w-k-essler.de/pdfs/goedel.pdf[Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I], Monatshefte für Mathematik und Physik, v. 38 n. 1, pp. 173–198.
+- [[[currying,14]]] Schönfinkel, M. (1928). http://www.cip.ifi.lmu.de/~langeh/test/1924%20-%20Schoenfinkel%20-%20Ueber%20die%20Bausteine%20der%20mathematischen%20Logik.pdf[Über die Bausteine der mathematischen Logik], Mathematische Annalen, v. 92 n. 1, pp. 305-316
+- [[[r,15]]] R: The R Project for Statistical Computing: https://www.r-project.org/
+- [[[ebnftools,16]]] EBNF Tools - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=igochkov.vscode-ebnf
+- [[[lexflexyaccbison,17]]] Lex Flex Yacc Bison - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=faustinoaq.lex-flex-yacc-bison
+- [[[cppcode,18]]] C/C++ - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
