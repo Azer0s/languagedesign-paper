@@ -189,17 +189,39 @@ Functional programming aims to model a program as the evaluation of mathematical
 * Haskell
 * Clojure
 
-== The three rules of good language design
-
-//TODO
+== The rules of good language design
 
 === Simplicity
 
-//TODO
+When we talk about simplicity in language design, we mean simple as in that there should be a small number of basic principles. It doesn't matter whether these basic principles themselves are simple. But having to many different paradigms in one language won't make it more powerful. It will make the language harder to use and thus less powerful.
+
+[quote, Robert Virding, On Language Design]
+You might not get all of this year's cool features but it will be easier to understand.
 
 === Consistency
 
-//TODO
+The basic principle of language consistency is the following: things should always look like what they're doing and things should always look like they fit in. Taking a C-like syntax and putting it into a Python-esque language will look and feel wrong; Merging an object oriented paradigm into a functional language won't work, etc.
+
+==== Example
+
+.C-like syntax in Python-esque language
+```python
+
+def check(x):
+    if x is true {
+        print x
+    }
+
+```
+
+=== Syntax
+
+When starting to use a new programming language, many people complain about the syntax of the language not looking like *their* favourite language. But the truth is that it's not a bad thing not having the same syntax as another language. People writing in your language might have to re-learn certain things, but having a unique syntax gives you the flexibility to have unique paradigms and features.  Just ripping off another languages syntax (how popular it might be) also means ripping off that languages flaws (which we want to avoid at all cost).
+
+The syntax of a language should reflect its semantics and its paradigms. Taking another languages syntax with different semantics and paradigms *will* lead to problems.
+But this doesn't mean that you have to completely change everything when designing a language. Certain keywords like `for`, `while` or `class`, names of primitive types like `int` or `string`, or common methods should stay the same.
+
+This, in no way, means going over the top with ones syntax. Proving alternative syntaxes for the same problem is bad. Not only does it make learning the language harder, it also makes a language less opinionated. Same goes for syntax for special cases.
 
 === Explicitness
 
@@ -275,8 +297,11 @@ While R mostly used by students or scientists, a language like C# is mostly used
 
 == Adding a feature to a language
 
-Adding features to a language is more complicated than it appears to be. Adding too many features might make the language cluttered and unusable. Certain features might not look right in the language (from an aesthetic standpoint, that is) and others might just not be technically possible.
+Adding features to a language is more complicated than it appears to be. Adding too many features might make the language cluttered and unusable. Certain features might not look right in the language (from an aesthetic standpoint, that is) and others might just not be technically possible. The most important part is keeping focus. Focus on what you want your language to be and avoid adding features that don't fit in.
 
+CAUTION: Because there is no feature that is not a limititation on something else, be very restrictive about adding features to a language.
+
+=== Defining a feature
 To add a feature, we first need to define it. Say we want to add pipelines to the C# programming language.
 
 We can't implement this feature by utilizing existing functionalities as there are no macros in C#, so we need to define a new operator. Let's take the well known `|>` operator from F#. Now that we know what we're going to add into our language, we need to write a basic EBNF for that.
@@ -291,7 +316,7 @@ With our EBNF ready, we need to write a code sample with our feature as the focu
 
 ``` java
 
-Console.ReadLine();
+Console.ReadLine()
     |> File.ReadAllBytes
     |> SHA1.Create().ComputeHash
     |> BitConverter.ToString
@@ -299,25 +324,57 @@ Console.ReadLine();
 
 ```
 
-Before we implement our feature, we need to answer some questions.
+=== Implementing a feature
+Because we want to avoid adding unnecessary or half-baked features, we need to first think about really adding a certain feature. This keeps us from loosing focus on what's important and adding the wrong features to our language.
 
 .Flowgraph for implementing a new language feature
 [graphviz,Design-feature-graph, svg]
 ----
 digraph g {
-    "Design feature" ->
 
-    "Feature fits in the languages look and feel?"
+    start[label="Start"];
 
-    "Feature fits in the languages look and feel?" -> "Yes, it does" -> Implement
-    "Feature fits in the languages look and feel?" -> "No, it does not" -> "Feature is necesary?"
+    design_feature[label="Design feature"];
 
-    "Feature is necesary?" -> "Yes, it is" -> "Feature can be redesigned?"
-    "Feature is necesary?" -> "No, but I want it" -> "Design feature"
-    "Feature is necesary?" -> "No, it is not" -> "Discard feature"
+    if_look_and_feel[label="Feature fits in the languages look and feel?"];
+    if_look_and_feel_yes[label="Yes, it does"];
+    if_look_and_feel_no[label="No, it does not"];
 
-    "Feature can be redesigned?" -> "Yes, it can" -> "Design feature"
-    "Feature can be redesigned?" -> "No, it can not" -> "Implement"
+    if_necessary[label="Feature is necesary?"];
+    if_necessary_yes[label="Yes"];
+    if_necessary_no[label="No, it is not"];
+    if_necessary_no_but[label="No, but I want it"];
+
+    if_redesigned[label="Feature can be redesigned?"];
+    if_redesigned_yes[label="Yes, it can"];
+    if_redesigned_no[label="No, it can not"];
+
+    implement[label="Implement"];
+    discard[label="Discard"];
+
+    end[label="End"];
+
+    start ->
+    design_feature ->
+    if_look_and_feel;
+
+    if_look_and_feel -> if_look_and_feel_yes -> implement;
+    if_look_and_feel -> if_look_and_feel_no -> if_necessary;
+
+    if_necessary -> if_necessary_yes -> if_redesigned;
+    if_necessary -> if_necessary_no -> discard;
+    if_necessary -> if_necessary_no_but -> design_feature;
+
+    if_redesigned-> if_redesigned_yes -> design_feature;
+    if_redesigned -> if_redesigned_no -> implement;
+
+    implement -> end;
+    discard -> end;
+
+    {rank=same; if_look_and_feel_yes if_look_and_feel_no};
+    {rank=same; if_necessary_yes if_necessary_no if_necessary_no_but};
+    {ranke=same; if_redesigned_yes if_redesigned_no};
+    {rank=same; discard implement};
 }
 ----
 
