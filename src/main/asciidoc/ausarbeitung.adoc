@@ -38,10 +38,9 @@ Nearly everything can be considered a language. If we define a language so that
 * the characters `+=` preceeded by an identifier and followed by a numeric value or an identifier, added a value to a variable
 * the character `=` preceeded by an identifier and followed by an identifier, compares two variables
 * an identifier followed by the character `:`, creates a label
-
-<<<
++
 and
-
++
 * the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
 
 this:
@@ -151,7 +150,53 @@ That also means that two computational devices P and Q are equal if P can simula
 
 === The EBNF (Extended Backus-Naur-Form)
 
-//TODO
+Invented by Niklaus Emil Wirth, EBNF (named after John W. Backus and Peter Naur) was meant as a way to describe the grammar of any given language. It is based on the simpler, less advanced Backus-Naur-Form (or BNF).
+
+EBNF describes the grammar of a language. It is the language of languages, so to say. In EBNF, there are two main unit types:
+
+* Tokens (sometimes called lexemes)
++
+and
++
+* Statements
+
+==== Operators
+
+* `|` ......... "or" operator. Either left side or right side.
+* `,` ......... Concatenation. Concatenates two values.
+* `[ ... ]` ... Optional block. Values inside this block are optional.
+* `{ ... }` ... Repetition block. Values inside this block can repeat.
+* `" ... "` ... String value.
+* `;` ......... Terminates an operation
+
+==== Tokens
+Tokens are fixed values. They're the smallest unit in an EBNF definition.
+``` ebnf
+zero = "0" ;
+digit_without_zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+```
+
+==== Statements
+
+Statements are a bundle of multiple tokens. Every statement can be broken up into sub-statements and/or tokens.
+``` ebnf
+hex_prefix = zero, "x" ;
+digit = zero | digit_without_zero ;
+```
+
+Every EBNF definition also has a start point. This starting point is often called "program", "main" or "statement".
+
+If we want to define a program that accepts decimal or hexadecimal numbers that don't have leading zeros as input, using our previously defined tokens and statements, our EBNF could look like so:
+
+``` ebnf
+program = number | hex_number ;
+number = ( digit_without_zero, { digit } ) | zero;
+hex_digit_without_zero = digit_without_zero | "a" | "b" | "c" | "d" | "e" | "f" ;
+hex_digit = hex_digit_without_zero | zero;
+hex_number =  hex_prefix, ( hex_digit_without_zero, { hex_digit } ) | zero;
+```
+
+For this definition, values like `0x1f`, `0x0`, `20`, `1` and `0`  would be valid, while `01`, `0xr` or `x12` are invalid.
 
 == Different types of programming languages
 
@@ -407,9 +452,9 @@ for both the setup and the programming part. My editor of choice will be VSCode 
 
 * EBNF Tools <<ebnftools>>
 * Lex Flex Yacc Bison <<lexflexyaccbison>>
-
++
 and
-
++
 * C/C++ <<cppcode>>
 
 ==== Packages
