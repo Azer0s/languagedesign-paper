@@ -330,7 +330,7 @@ While R mostly used by students or scientists, a language like C# is mostly used
 
 ==== Giving the language a name
 
-//TODO
+As irrelevant as this might sound, the name is an important aspect of every programming language. It should be memorable and easy to pronounce. The file extension you choose for source files should not be taken.
 
 ==== Defining the language
 
@@ -431,11 +431,36 @@ If the feature was necessary, and can simply not be redesigned (this mostly happ
 
 == Writing our own mini language
 
-//TODO
+We will be writing our own procedural language. It will be called "Littl" and its file extension will be ".lit". We will transpile the language into JavaScript.
 
 === Definiton
 
-//TODO
+The language isn't really all that powerful. We have variables, which we can declare with either `var`, for normal variables or `var!` for constants and there is shorthand deceleration with the `:=` operator (which doesn't require a var keyword). We won't deal with datatypes but rather let JavaScript handle that.
+
+The language has functions which are declared like so: `functionName argument1 argument2 ...` for loops which are declared like so: `for initialization; condition; increment`, and if statements which look like this: `if condition`.
+These statements have C-like blocks (curly brackets).
+
+Lil also has C-style comparison and mathematical operators. The return keyword is `put`.
+
+There are two built-ins: `print()` and `read()`. `read()` is not supported in a browser environment.
+
+A recursive fibonacci sequence would look like so:
+
+```python
+fib n {
+    if n == 0 || n == 1 {
+        put n
+    }
+
+    put fib(n-1) + fib(n-2)
+}
+
+i := read()
+x := fib(i)
+
+print(x)
+
+```
 
 === Lexer
 
@@ -466,10 +491,6 @@ sudo apt install flex bison make gcc g++ -y
 ```
 
 == Lex/Yacc hands on
-
-//TODO
-
-== A simple interpreter
 
 //TODO
 
