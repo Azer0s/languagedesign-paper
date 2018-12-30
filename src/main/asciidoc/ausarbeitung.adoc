@@ -44,6 +44,7 @@ and
 +
 * the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
 
+<<<
 this:
 
 ``` coffeescript
@@ -161,6 +162,7 @@ and
 +
 * Statements
 
+<<<
 ==== Operators
 
 * `|` ......... "or" operator. Either left side or right side.
@@ -235,6 +237,7 @@ Functional programming aims to model a program as the evaluation of mathematical
 * Haskell
 * Clojure
 
+<<<
 == The rules of good language design
 
 === Simplicity
@@ -325,6 +328,7 @@ Knowing your user base is always important. Whether you develop an online shop o
 
 While R mostly used by students or scientists, a language like C# is mostly used by software engineers. R doesn't need to have the same enterprise capabilities like C# and C# doesn't need to have the same ability to express complicated mathematical formulae, like R does.
 
+<<<
 === Developing a language
 
 ==== Giving the language a name
@@ -442,11 +446,11 @@ If the feature was necessary, and can simply not be redesigned (this mostly happ
 
 == Writing our own mini language
 
-We will be writing our own procedural/semi-functional language. It will be called "Littl" and its file extension will be ".lit". We will transpile the language into JavaScript.
+We will be writing our own procedural/semi-functional language. It will be called "littl" and its file extension will be ".lit". We will transpile the language into JavaScript.
 
 === Definiton
 
-The language isn't really all that powerful. We have variables, which we can declare with either `var`, for normal variables or `var!` for constants and there is shorthand deceleration with the `:=` operator (which doesn't require a var keyword). We won't deal with datatypes but rather let JavaScript handle that.
+The language isn't really all that powerful. We have variables, which we can declare with either `var`, for normal variables or `var!` for constants and there is shorthand declaration with the `:=` operator (which doesn't require a var keyword). We won't deal with datatypes but rather let JavaScript handle that.
 
 Littl also has C-style comparison and mathematical operators. Values can be returned with the `return` keyword.
 
@@ -503,6 +507,8 @@ for ;true; {
 
 Declared like: `if condition`
 
+Optional: `else`
+
 ===== Example
 
 ```go
@@ -511,12 +517,15 @@ a := 5
 if a < 10 {
     console.log("a is smaller than 10")
 }
+else{
+    console.log("a is bigger than 10")
+}
 
 ```
 
 These statements have C-like blocks (curly brackets).
 
-Since Littl transpiles to JavaScript, one can use JavaScript functions like `console.log`.
+Because littl transpiles to JavaScript, one can use JavaScript functions like `console.log`.
 
 A recursive fibonacci sequence would look like so:
 
@@ -535,7 +544,7 @@ console.log(x)
 
 ```
 
-Since Littl is part functional, every scope, be it `if`, `for` or a function scope, can be put into a variable or returned.
+Since littl is part functional, every scope, be it `if`, `for` or a function scope, can be put into a variable or returned.
 
 ```go
 count := for i := 0; i != 10; i++ {
@@ -562,6 +571,7 @@ console.log(add3(2))
 
 ```
 
+<<<
 === Setup
 
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
@@ -584,7 +594,249 @@ sudo apt install flex bison make gcc g++ -y
 
 === Lex/Yacc hands on
 
-//TODO
+We could write our lexer and parser ourselves but that would be too much work. Therefore we utilize Lex and Yacc. Lex and Yacc are definition languages that serve as a high-level EBNF. They provide a stable framework to build any form of language runtime on.
+
+Flex and Bison are GNU implementations/extensions to this framework.
+
+Our Flex file serves as the lexer. It will get a filestream from the file we're trying to transpile and convert the content of said file into a stream of tokens.
+
+The Bison definition will be the parser. It will receive the tokens from Flex and parse them by recursive descent.
+
+Since Flex and Bison run on C and C{plus}{plus} respectively, we will be writing our transpiler in C{plus}{plus} as well.
+
+.lex.l
+[source,go]
+----
+%option noyywrap //<1>
+%option yylineno //<2>
+
+%{
+    #include "grammar.tab.h" //<3>
+%}
+
+//<4>
+INT                             \(-[0-9]*\)|[0-9]*
+DECIMAL                         \(-[0-9]*\.[0-9]+\)|[0-9]*\.[0-9]+
+STRING                          \"[^\n"]*\"
+BOOL                            true|false
+
+NAME                            [a-zA-Z][a-zA-Z0-9._]*
+
+VAR                             var
+CONST                           var!
+
+IF                              if
+ELSE                            else
+FOR                             for
+
+...
+
+//<5>
+WHITESPACE                      [ \r\t\v\f]
+FEED                            \n
+
+%%
+
+//<6>
+{STRING}                        return STRING;
+{INT}                           return INT;
+{DECIMAL}                       return DECIMAL;
+{BOOL}                          return BOOL;
+
+{VAR}                           return VAR;
+
+...
+
+//<7>
+{WHITESPACE}
+
+{FEED}                          yylineno++;
+%%
+----
+<1> Disable `yywrap` - after an EOF, the lexer assumes that there are no more files to scan
+<2> Expose `yylineno` (current line number)
+<3> Import header file of grammar
+<4> Define tokens
+<5> Define whitespace characters (these are ignored) and linefeed (so that the lexer knows when to increment `yylineno`)
+<6> Return enum for each token
+<7> Ignore whitespace and increment `yylineno`
+
+.grammar.y
+[source,cpp]
+----
+%{
+    #include <math.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include "../src/tree/nodes.hpp" //<1>
+    #include <iostream>
+    #include <vector>
+    #include <memory>
+
+    extern int yylineno; //<2>
+    extern char* yytext; //<3>
+
+    int yylex(void); //<4>
+    void yyerror (char const *str) { //<5>
+        fprintf(stderr,"Error | Line: %d\n%s\n%s\n",yylineno,str,yytext);
+    }
+
+    //<6>
+    littl::SyntaxTree* root;
+    littl::SyntaxTree* p;
+    std::vector<littl::SyntaxTree*> tree;
+
+    #define YYSTYPE littl::SyntaxTree* //<7>
+%}
+
+//<8>
+%token INT
+%token DECIMAL
+%token STRING
+%token BOOL
+
+%token VAR
+
+%start input //<9>
+
+...
+
+%%
+
+//<10>
+input:
+    program { root = new littl::Program(tree); }
+    ;
+
+//<12>
+program:
+    block program { tree.insert(tree.begin(),$1); } //<11>
+    | %empty { $$ = new littl::Empty();}
+    ;
+
+//<13>
+block:
+    assignment { $$ = new littl::Terminated($1); }
+    | statement { $$ = new littl::Terminated($1); }
+    | variable { $$ = $1; }
+    | return { $$ = $1; }
+    | function { $$ = $1; }
+    | if { $$ = $1; }
+    | for {$$ = $1; }
+    | block block { $$ = new littl::Tuple($1,$2); }
+    | %empty { $$ = new littl::Empty(); }
+    ;
+
+...
+
+//<14>
+statement:
+    name LBRACKET RBRACKET { $$ = new littl::Call($1,new littl::Empty()); }
+    | name LBRACKET parameters RBRACKET { $$ = new littl::Call($1,$3); }
+    ;
+
+...
+----
+<1> `../src/tree/nodes.hpp` contains a list of all sub-node classes
+<2> Reference `yylineno`
+<3> Reference `yytext` (refers to the actual string value of tokens)
+<4> Reference `yylex` method so that the parser can receive a token stream
+<5> Define error function
+<6> Define root node and temporary nodes
+<7> Define the datatype of the base node (every other node inherits from the base node)
+<8> Declarate all token types used in the lexer
+<9> Declarate the starting point of the parser
+<10> Starting point of the parser
+<11> A program can contain multiple blocks
+<12> `$1` refers to `block` (the first item in the rule)
+<13> Defines all possible block types
+<14> Sample rule
+
+.tree/syntaxtree.hpp
+[source,cpp]
+----
+#pragma once
+#include <vector>
+#include <string>
+#include <memory>
+
+namespace littl {
+    class SyntaxTree {
+        public:
+            SyntaxTree() = default; //<1>
+            virtual ~SyntaxTree() = default; //<2>
+            virtual std::string toCode() const = 0; //<3>
+    };
+}
+----
+<1> Constructor
+<2> Destructor (we will be dealing with many objects, we have to delete the memory used by them properly)
+<3> toCode function, generates code from a node
+
+<<<
+Here is a sample for how a node could look like:
+
+.tree/blocks/if.hpp
+[source,cpp]
+----
+#pragma once
+#include "../syntaxtree.hpp"
+
+namespace littl {
+    class If : public SyntaxTree{
+        public:
+            If(SyntaxTree* condition, SyntaxTree* block){
+                this->condition = condition;
+                this->block = block;
+            }
+            virtual ~If(){
+                delete condition;
+                delete block;
+            };
+            virtual std::string toCode() const{
+                return "if(" + condition->toCode() + "){\n" + block->toCode() + "}\n";
+            }
+
+        private:
+            SyntaxTree* condition;
+            SyntaxTree* block;
+    };
+}
+----
+
+.main.cpp
+[source,cpp]
+----
+#include <iostream>
+#include <fstream>
+#include "tree/nodes.hpp" //<1>
+
+extern int yyparse();  <2>
+extern int yylex(); <2>
+extern littl::SyntaxTree* root; <3>
+
+int main(){
+    int result = yyparse(); <4>
+
+    if(result == 0){
+        std::cout << "Input is valid!" << std::endl;
+    }else{
+        std::cout << "Input invalid!" << std::endl;
+    }
+
+    std::ofstream outputfile;
+    outputfile.open ("out.js");
+    outputfile << root->toCode(); <5>
+    outputfile.close();
+
+    return result;
+}
+----
+<1> `tree/nodes.hpp` contains a list of all sub-node classes
+<2> Reference to methods exposed by Flex/Bison
+<3> Reference to resulting root node exposed by Bison
+<4> Lex & parse the source file, result is put into `root`
+<5> Generate code from root node
 
 == Summary
 
