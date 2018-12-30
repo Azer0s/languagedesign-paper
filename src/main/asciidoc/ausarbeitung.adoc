@@ -21,12 +21,12 @@ Here one should write the abstract of the paper. It is usually between 1 and 3 p
 
 The list of general purpose programming languages has been growing recently. With it, a staggering amount of immature and, generally, out of place languages. Of course, there are some really good new languages (Kotlin, Go, Rust), but others (such as Solidity, JavaScript or Python) have features or design flaws that make them seem out of place or unliked by some.
 
-Language design and intelligent language features are now more important than they've ever been. With the amount of languages out there, creating a new language with features that sets it apart and doesn't make it seem "ugly" or "irrelevant" is quite a challenge. This paper will aim to introduce you into language- and language-feature design.
+Language design and intelligent language features are now more important than they've ever been. With the amount of languages out there, creating a new language with features that sets it apart and doesn't make it seem "ugly" or "irrelevant" is quite a challenge. This paper will aim to introduce you to language- and language-feature design.
 
 <<<
 === What is a programming language?
 
-What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
+What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of a given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
 
 Source code itself is also nothing special. It is just bytes in a, in most cases, UTF-8 encoded text file, which are
 arranged in a manner so that they form commands which the runtime of a given language can understand.
@@ -75,13 +75,13 @@ For a program written in a language to be executed, you need a runtime. A runtim
 
 [NOTE]
 ====
-When I speak of runtime levels, I refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further from hardware".
+When we speak of runtime levels, we refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further away from hardware".
 ====
 
 <<<
 ==== Compiled
 
-A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather, translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
+A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
 
 ===== Examples
 * *GCC* <<gcc>>: C{plus}{plus} -> Machine code
@@ -90,7 +90,7 @@ A compiler scans the entire source code and translates it into lower level code.
 
 ==== Transpiled
 
-A transpiler also scans the entire source code, but, instead of translating it into lower level code, the transpiler translates it into another language on the same execution level. This language can than be compiled, transpiled or interpreted itself.
+A transpiler also scans the entire source code, but instead of translating it into lower level code, the transpiler translates it into another language on the same execution level. This language can than be compiled, transpiled or interpreted itself.
 
 ===== Examples
 
@@ -131,21 +131,21 @@ But languages themselves, have nothing to do with speed. Language implementation
 
 NOTE: The reference implementation is the implementation made by the creator of a language. It, usually, gets new language features first and is always compliant with the standard (because it is the standard).
 
-One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would be, theoretically, possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
+One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would theoretically be possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
 
 In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy <<pypy>>, or the C++ interpreter Cling <<cling>>)
 
 === What is Turing completeness?
 
-For us to understand Turing completeness, we need to go back in time. To the 1940s to be precise. Back then, the second world war was at its hiatus, the Nazis seemed undefeatable. No one could predict their strategy. The only way to do it was cracking their encryption algorithm, the "ENIGMA". The challenge seemed so completely out of scope that for a while, British intelligence tried to just guess what the code might be. Until Alan Turing came along and created a computational device that was able to figure out the encryption keys of the "ENIGMA".
+For us to understand Turing completeness, we need to go back in time. To the 1940s to be precise. Back then, the second world war was at its height, the Nazis seemed undefeatable. No one could predict their strategy. The only way to do it was cracking their encryption algorithm, the "ENIGMA". The challenge seemed so completely out of scope that for a while, British intelligence tried to just guess what the code might be. Until Alan Turing came along and created a computational device that was able to figure out the encryption keys of the "ENIGMA".
 
-Fascinated by the idea of a universal computing device, Turing first turned his attention to designing a general purpose computing machine in 1936. This was when Turing first formulated the idea of the "Universal Computing Machine" <<turing1>> (now simply known as a "Turing machine"). A mathematical model that defines an abstract computation device. The machine works by modifying symbols on a strip of tape according to opcodes (a table of rules). Even thogh the model was simple, it could, in theory, simulate any given mathematical algorithm.
+Fascinated by the idea of a universal computing device, Turing first turned his attention to designing a general purpose computing machine in 1936. This was when Turing first formulated the idea of the "Universal Computing Machine" <<turing1>> (now simply known as a "Turing machine"). A mathematical model that defines an abstract computation device. The machine works by modifying symbols on a strip of tape according to opcodes (a table of rules). Even though the model was simple, it could, in theory, simulate any given mathematical algorithm.
 
 Turing wasn't the only one who formulated such an idea. In 1931, Kurt Gödel had already published a similar mathematical formalism in his paper on the "Gödel's incompleteness theorems" <<goedel1>>.
 
 A Turing complete language describes a language that has, at least, the same computational capabilities as Alan Turing had with his "Turing machine". To put it simply:
 
-NOTE: A turing complete language can emulate a universal Turing machine.
+NOTE: A Turing complete language can emulate a universal Turing machine.
 
 That also means that two computational devices P and Q are equal if P can simulate Q and Q can simulate P. This is called Turing equivalence.
 
@@ -187,7 +187,7 @@ digit = zero | digit_without_zero ;
 
 Every EBNF definition also has a start point. This starting point is often called "program", "main" or "statement".
 
-If we want to define a program that accepts decimal or hexadecimal numbers that don't have leading zeros as input, using our previously defined tokens and statements, our EBNF could look like so:
+If we want to define a program that accepts decimal or hexadecimal numbers that don't have leading zeros as input, using our previously defined tokens and statements, our EBNF could look like this:
 
 ``` ebnf
 program = number | hex_number ;
@@ -201,13 +201,13 @@ For this definition, values like `0x1f`, `0x0`, `20`, `1` and `0`  would be vali
 
 == Different types of programming languages
 
-Before we get into actually creating a programming language, we need to know what kind of language we want. We can generally differentiate into three different kinds of programming languages:
+Before we get into actually creating a programming language, we need to know what kind of language we want. We can generally differentiate three different kinds of programming languages:
 
 NOTE: A programming paradigm is a style of programming. It is a way of thinking about a solution. Programming paradigms do not refer to a specific language, but rather to a type of programming language (to a way to program).
 
 === Procedural
 
-According to most people, procedural programming is the most basic form programming paradigm. In a procedural language, the programmer describes what the program is supposed to do step-by-step. There are basic procedures, known as subroutines or functions, and more often that not, one will be able to define data structures in a procedural language, but that is as feature-rich as it gets.
+According to most people, procedural languages are the most basic form of programming languages. In a procedural language, the programmer describes what the program is supposed to do step-by-step. There are basic procedures, known as subroutines or functions, and more often that not, one will be able to define data structures in a procedural language, but that is as feature-rich as it gets.
 
 ==== Examples
 
@@ -239,7 +239,7 @@ Functional programming aims to model a program as the evaluation of mathematical
 
 === Simplicity
 
-When we talk about simplicity in language design, we mean simple as in that there should be a small number of basic principles. It doesn't matter whether these basic principles themselves are simple. But having to many different paradigms in one language won't make it more powerful. It will make the language harder to use and thus less powerful.
+When we talk about simplicity in language design, we mean simple as in that there should be a small number of basic principles. It doesn't matter whether these basic principles themselves are simple. But having too many different paradigms in one language won't make it more powerful. It will make the language harder to use and thus less powerful.
 
 [quote, Robert Virding, On Language Design]
 You might not get all of this year's cool features but it will be easier to understand.
@@ -262,7 +262,7 @@ def check(x):
 
 === Syntax
 
-When starting to use a new programming language, many people complain about the syntax of the language not looking like *their* favourite language. But the truth is that it's not a bad thing not having the same syntax as another language. People writing in your language might have to re-learn certain things, but having a unique syntax gives you the flexibility to have unique paradigms and features.  Just ripping off another languages syntax (how popular it might be) also means ripping off that languages flaws (which we want to avoid at all cost).
+When starting to use a new programming language, many people complain about the syntax of the language not looking like *their* favourite language. But the truth is that not having the same syntax as another language is not a bad thing. People writing in your language might have to re-learn certain things, but having a unique syntax gives you the flexibility to have unique paradigms and features.  Just ripping off another language's syntax (how popular it might be) also means ripping off that language's flaws (which we want to avoid at all cost).
 
 The syntax of a language should reflect its semantics and its paradigms. Taking another languages syntax with different semantics and paradigms *will* lead to problems.
 But this doesn't mean that you have to completely change everything when designing a language. Certain keywords like `for`, `while` or `class`, names of primitive types like `int` or `string`, or common methods should stay the same.
@@ -299,7 +299,7 @@ Before we start writing your programming language, we need to ask ourselves some
 
 ===== What kind of programming language is it?
 
-It is generally agreed upon, that procedural languages are the easiest to develop. There are no classes, interfaces or other code abstractions (like polymorphism). Functional constructs, such as currying, are also not supported. Simply put: there are less features one has to support, thus, the language itself is not as complicated.
+It is generally agreed upon that procedural languages are the easiest to develop. There are no classes, interfaces or other code abstractions (like polymorphism). Functional constructs, such as currying, are also not supported. Simply put: there are less features one has to support, thus, the language itself is not as complicated.
 
 Object oriented or functional language are both harder to develop and to conceptualize, but are often far more powerful than procedural ones.
 
@@ -333,7 +333,7 @@ As irrelevant as this might sound, the name is an important aspect of every prog
 
 ==== Defining the language
 
-When defining a language, one usually starts by writing an EBNF. This isn't always necessary, but recommended in most cases.
+When defining a language, one usually starts by writing an EBNF. This isn't always necessary, but is recommended in most cases.
 
 The core parts of the language are defined first. This includes primitive types, variables, functions and loops. Then, method calls, class structures and other high-level constructs are defined.
 
@@ -381,7 +381,7 @@ Console.ReadLine()
 ```
 
 === Implementing a feature
-Because we want to avoid adding unnecessary or half-baked features, we need to first think about really adding a certain feature. This keeps us from loosing focus on what's important and adding the wrong features to our language.
+Because we want to avoid adding unnecessary or half-baked features, we need to first think about really adding a certain feature. This keeps us from losing focus on what's important and adding the wrong features to our language.
 
 .Flowgraph for implementing a new language feature
 [graphviz,Design-feature-graph, svg]
@@ -434,9 +434,9 @@ digraph g {
 }
 ----
 
-For our new C# feature, this is fairly trivial. Our new language feature does, in fact, fit in the languages look and feel. Therefore, we can implement it.
+For our new C# feature, this is fairly trivial. Our new language feature does, in fact, fit in the language's look and feel. Therefore, we can implement it.
 
-If it didn't fit, we'd have to ask ourselves if the feature is necessary and if there is another way to solve the problem we're solving with this feature (even if said way is syntactly less pleasing). If that were the case, we could either discard the feature or redesign it.
+If it didn't fit, we'd have to ask ourselves if the feature was necessary and if there is another way to solve the problem we're solving with this feature (even if said way was syntactly less pleasing). If that were the case, we could either discard the feature or redesign it.
 
 If the feature was necessary, and can simply not be redesigned (this mostly happens because of other  design flaws in a language), we'd have to implement the feature to our best of knowledge and belief.
 
