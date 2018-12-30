@@ -333,23 +333,27 @@ As irrelevant as this might sound, the name is an important aspect of every prog
 
 ==== Defining the language
 
-//TODO
+When defining a language, one usually starts by writing an EBNF. This isn't always necessary, but recommended in most cases.
+
+The core parts of the language are defined first. This includes primitive types, variables, functions and loops. Then, method calls, class structures and other high-level constructs are defined.
+
+Define what differentiates your language from other languages, syntax wise. Don't, yet, talk about features.
 
 ==== Defining the feature set of the language
 
-//TODO
+After the basic functionality is clear, you can start defining the feature set of your language. Code samples are always welcome. Explain why your users should utilize said feature and why your feature is a better way of solving a problem.
 
 ==== Lexer
 
-//TODO
+As previously mentioned, an EBNF has tokens and statements. The lexer parses a string and converts the characters of said string into tokens.
 
 ==== Parser
 
-//TODO
+The parser takes in the lexer output as a stream of tokens and converts them into statements. There are many different types of parser, but the most common one is the recursive descent parser. A recursive descent parser operates as a finite state machine. One of its features is parsing sub-statements while parsing a statement.
 
 == Adding a feature to a language
 
-Adding features to a language is more complicated than it appears to be. Adding too many features might make the language cluttered and unusable. Certain features might not look right in the language (from an aesthetic standpoint, that is) and others might just not be technically possible. The most important part is keeping focus. Focus on what you want your language to be and avoid adding features that don't fit in.
+Adding features to a language, after the fact, is more complicated than it appears to be. Adding too many features might make the language cluttered and unusable. Certain features might not look right in the language (from an aesthetic standpoint, that is) and others might just not be technically possible. The most important part is keeping focus. Focus on what you want your language to be and avoid adding features that don't fit in.
 
 CAUTION: Because there is no feature that is not a limititation on something else, be very restrictive about adding features to a language.
 
@@ -519,7 +523,7 @@ A recursive fibonacci sequence would look like so:
 ```go
 fib n {
     if n == 0 or n == 1 {
-        put n
+        return n
     }
 
     return fib(n-1) + fib(n-2)
