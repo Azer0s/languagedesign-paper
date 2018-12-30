@@ -15,6 +15,7 @@ ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
 == Abstract
 
 Here one should write the abstract of the paper. It is usually between 1 and 3 paragraphs long.
+//TODO
 
 == Introduction
 
@@ -326,8 +327,6 @@ While R mostly used by students or scientists, a language like C# is mostly used
 
 === Developing a language
 
-//TODO
-
 ==== Giving the language a name
 
 As irrelevant as this might sound, the name is an important aspect of every programming language. It should be memorable and easy to pronounce. The file extension you choose for source files should not be taken.
@@ -337,6 +336,14 @@ As irrelevant as this might sound, the name is an important aspect of every prog
 //TODO
 
 ==== Defining the feature set of the language
+
+//TODO
+
+==== Lexer
+
+//TODO
+
+==== Parser
 
 //TODO
 
@@ -431,44 +438,125 @@ If the feature was necessary, and can simply not be redesigned (this mostly happ
 
 == Writing our own mini language
 
-We will be writing our own procedural language. It will be called "Littl" and its file extension will be ".lit". We will transpile the language into JavaScript.
+We will be writing our own procedural/semi-functional language. It will be called "Littl" and its file extension will be ".lit". We will transpile the language into JavaScript.
 
 === Definiton
 
 The language isn't really all that powerful. We have variables, which we can declare with either `var`, for normal variables or `var!` for constants and there is shorthand deceleration with the `:=` operator (which doesn't require a var keyword). We won't deal with datatypes but rather let JavaScript handle that.
 
-The language has functions which are declared like so: `functionName argument1 argument2 ...` for loops which are declared like so: `for initialization; condition; increment`, and if statements which look like this: `if condition`.
-These statements have C-like blocks (curly brackets).
+Littl also has C-style comparison and mathematical operators. Values can be returned with the `return` keyword.
 
-Lil also has C-style comparison and mathematical operators. The return keyword is `put`.
+==== Functions
 
-There are two built-ins: `print()` and `read()`. `read()` is not supported in a browser environment.
+Declared like: `functionName argument1 argument2 ...`
 
-A recursive fibonacci sequence would look like so:
+===== Example
 
-```python
-fib n {
-    if n == 0 || n == 1 {
-        put n
-    }
+```go
 
-    put fib(n-1) + fib(n-2)
+add x y {
+    return x + y
 }
-
-i := read()
-x := fib(i)
-
-print(x)
 
 ```
 
-=== Lexer
+==== For loops
 
-//TODO
+Declared like: `for variable in array`
 
-=== Parser
+===== Example
 
-//TODO
+```go
+arr := {1,2,3,4,5}
+
+for i in arr {
+    console.log(i)
+}
+
+```
+
+==== Counted for loops
+
+Declared like: `for variableDeclaration; condition; operation`
+
+===== Example
+
+```go
+arr := {1,2,3,4,5}
+
+for var i = 0; i < arr.length; i = i + 1{
+    console.log(i)
+}
+
+for ;true; {
+    console.log("Hello")
+}
+
+```
+
+
+==== If condition
+
+Declared like: `if condition`
+
+===== Example
+
+```go
+a := 5
+
+if a < 10 {
+    console.log("a is smaller than 10")
+}
+
+```
+
+These statements have C-like blocks (curly brackets).
+
+Since Littl transpiles to JavaScript, one can use JavaScript functions like `console.log`.
+
+A recursive fibonacci sequence would look like so:
+
+```go
+fib n {
+    if n == 0 or n == 1 {
+        put n
+    }
+
+    return fib(n-1) + fib(n-2)
+}
+
+x := fib(12)
+
+console.log(x)
+
+```
+
+Since Littl is part functional, every scope, be it `if`, `for` or a function scope, can be put into a variable or returned.
+
+```go
+count := for i := 0; i != 10; i++ {
+    console.log(i)
+}
+
+count()
+
+var! two = 2
+twoSmallerThanThree := if two < 3 {
+    return true
+}
+
+twoSmallerThanThree()
+
+curryAddition := anonymous x {
+    return anonymous y {
+        return x + y
+    }
+}
+
+add3 := curryAddition(3)
+console.log(add3(2))
+
+```
 
 === Setup
 
@@ -490,13 +578,15 @@ sudo apt install flex bison make gcc g++ -y
 
 ```
 
-== Lex/Yacc hands on
+=== Lex/Yacc hands on
 
 //TODO
 
 == Summary
 
 Here one should write the summary of the paper. It's usually between 1 and 5 paragraphs long.
+
+//TODO
 
 <<<
 
