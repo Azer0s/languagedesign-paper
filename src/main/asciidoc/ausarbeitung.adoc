@@ -1,6 +1,6 @@
 = Language Design
 Ariel Simulevski <ariel@simulevski.at>
-v0.1, 2018-12-24
+v1.0, 2018-12-31
 :example-caption!:
 :media: prepress
 :icons: font
@@ -14,8 +14,11 @@ ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
 
 == Abstract
 
-Here one should write the abstract of the paper. It is usually between 1 and 3 paragraphs long.
-//TODO
+This paper aims to serve as an introduction into language design/development. Both the design aspect as well as the technical aspect are explained.
+
+In the end of this text, all of the learned skills will be utilized by creating a small, custom programming language.
+
+It is hoped this paper will inform others about language development, language design and the rules to the latter.
 
 == Introduction
 
@@ -577,7 +580,6 @@ console.log(add3(2))
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
 for both the setup and the programming part. My editor of choice will be VSCode with the following extensions:
 
-* EBNF Tools <<ebnftools>>
 * Lex Flex Yacc Bison <<lexflexyaccbison>>
 +
 and
@@ -838,14 +840,21 @@ int main(){
 <4> Lex & parse the source file, result is put into `root`
 <5> Generate code from root node
 
-== Summary
+The entire code for this transpiler can be found on GitHub.
 
-Here one should write the summary of the paper. It's usually between 1 and 5 paragraphs long.
-
-//TODO
+https://github.com/Azer0s/littl[*littl*]
 
 <<<
+== Conclusion
 
+Creating programming languages isn't as complicated as it seems. With the right tools and a bit of know-how it becomes fairly trivial.
+
+The last hint: listen to what users say they want. Don't implement what users want (you are the language designer - not your users). Implement what you think is a good solution to their problems. Giving your users a better tool to solve their problems than they could've thought of is the ultimate test of success in language design.
+
+[quote, Unknown]
+The test of success in programming language design is being smarter than your users. This is also the case in programming methodology. Perhaps these two are the same subject anyway.
+
+<<<
 [bibliography]
 == References
 
@@ -864,6 +873,5 @@ Here one should write the summary of the paper. It's usually between 1 and 5 par
 - [[[goedel1,13]]] Gödel, K. (1931). http://www.w-k-essler.de/pdfs/goedel.pdf[Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme, I], Monatshefte für Mathematik und Physik, v. 38 n. 1, pp. 173–198.
 - [[[currying,14]]] Schönfinkel, M. (1928). http://www.cip.ifi.lmu.de/~langeh/test/1924%20-%20Schoenfinkel%20-%20Ueber%20die%20Bausteine%20der%20mathematischen%20Logik.pdf[Über die Bausteine der mathematischen Logik], Mathematische Annalen, v. 92 n. 1, pp. 305-316
 - [[[r,15]]] R: The R Project for Statistical Computing: https://www.r-project.org/
-- [[[ebnftools,16]]] EBNF Tools - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=igochkov.vscode-ebnf
-- [[[lexflexyaccbison,17]]] Lex Flex Yacc Bison - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=faustinoaq.lex-flex-yacc-bison
-- [[[cppcode,18]]] C/C++ - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+- [[[lexflexyaccbison,16]]] Lex Flex Yacc Bison - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=faustinoaq.lex-flex-yacc-bison
+- [[[cppcode,17]]] C/C++ - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools

@@ -19,8 +19,15 @@ font:
       bold: mplus1p-regular-fallback.ttf
       italic: mplus1p-regular-fallback.ttf
       bold_italic: mplus1p-regular-fallback.ttf
+    Code:
+      normal: mplus1mn-regular-ascii-conums.ttf
+      bold: mplus1mn-regular-ascii-conums.ttf
+      italic: mplus1mn-regular-ascii-conums.ttf
+      bold_italic: mplus1mn-regular-ascii-conums.ttf
   fallbacks:
     - M+ 1p Fallback
+code:
+  font_family: Code
 base:
   font_family: Noto Serif
   font_color: #333333
