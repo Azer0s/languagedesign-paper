@@ -10,7 +10,7 @@ v1.0, 2018-12-31
 
 <<<
 
-== Abstract
+== 1. Abstract
 
 This paper aims to serve as an introduction into language design/development. Both the design aspect as well as the technical aspect are explained.
 
@@ -18,7 +18,9 @@ In the end of this text, all of the learned skills will be utilized by creating 
 
 It is hoped this paper will inform others about language development, language design and the rules to the latter.
 
-== Introduction
+<<<
+
+== 2. Introduction
 
 The list of general purpose programming languages has been growing recently. With it, a staggering amount of immature and, generally, out of place languages. Of course, there are some really good new languages (Kotlin, Go, Rust), but others (such as Solidity, JavaScript or Python) have features or design flaws that make them seem out of place or unliked by some.
 
@@ -26,7 +28,7 @@ Language design and intelligent language features are now more important than th
 
 <<<
 
-=== What is a programming language?
+=== 2.1 What is a programming language?
 
 What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of a given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
 
@@ -46,7 +48,6 @@ and
 +
 * the character `<` followed by a lable name, jumps to a label if the last comparison evaluated to `1`
 
-<<<
 this:
 
 ```coffeescript
@@ -70,9 +71,13 @@ next:
 
 ```
 
-would be valid source code (in fact, the language could even be considered <<What is Turing completeness?,Turing complete>>). We won't be able to execute it, of course, as we don't have a runtime for that language, but it is a defined language, nonetheless.
+would be valid source code (in fact, the language could even be considered <<What is Turing completeness?,Turing complete>>).
 
-=== Compiled vs Transpiled vs Interpreted
+<<<
+
+We won't be able to execute it, of course, as we don't have a runtime for that language, but it is a defined language, nonetheless.
+
+=== 2.2 Compiled vs Transpiled vs Interpreted
 
 For a program written in a language to be executed, you need a runtime. A runtime is the basic execution model of any implementation of any language.
 
@@ -81,9 +86,7 @@ For a program written in a language to be executed, you need a runtime. A runtim
 When we speak of runtime levels, we refer to code that runs closer, or further away (in means of abstraction) from the hardware. This, in turn, means that a system has to have a concept of "closer or further away from hardware".
 ====
 
-<<<
-
-==== Compiled
+==== 2.2.1 Compiled
 
 A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
 
@@ -92,7 +95,7 @@ A compiler scans the entire source code and translates it into lower level code.
 * *Roslyn* <<roslyn>>: C# -> CIL (Common Intermediate Language, C# bytecode)
 * *javac* <<javac>>: Java -> Java Bytecode
 
-==== Transpiled
+==== 2.2.2 Transpiled
 
 A transpiler also scans the entire source code, but instead of translating it into lower level code, the transpiler translates it into another language on the same execution level. This language can than be compiled, transpiled or interpreted itself.
 
@@ -102,7 +105,7 @@ A transpiler also scans the entire source code, but instead of translating it in
 * *CoffeeScript* <<coffeescript>>: CoffeeScript -> JavaScript
 * *emscripten* <<emscripten>>: LLVM -> JavaScript
 
-==== Interpreted
+==== 2.2.3 Interpreted
 
 An interpreter is practically not comparable to a compiler or a transpiler. Instead of translating the language, an interpreter goes through the source code, line-by-line, and tries to figure out what the program is supposed to do as it goes.
 
@@ -127,19 +130,19 @@ These JIT compilers can figure out what parts of a program are resource-intensiv
 * *V8* <<v8>>: JavaScript
 * *HHVM* <<hhvm>>: Hack & PHP
 
-=== Definition vs Implementation
+=== 2.3 Definition vs Implementation
 
 Before we start, we first need to understand the difference between language definition and language implementation. These two are often confused and thus, people say things like "C{plus}{plus} is a fast language" or "Python is really slow".
 
 But languages themselves, have nothing to do with speed. Language implementations do. Of course, certain languages tend to encourage certain runtime systems, while language constructs of others might make it harder to have a faster runtime. But, in theory, every language can be as fast as any other.
 
-NOTE: The reference implementation is the implementation made by the creator of a language. It, usually, gets new language features first and is always compliant with the standard (because it is the standard).
+NOTE: The reference implementation is the sample implementation of a language. It is usually developed by the creator(s) of a language. Since it is the sample implementation, it gets new language features first and is always compliant with the standard (because it is the standard).
 
 One could make an interpreted version of C{plus}{plus}, which would be slower than the reference implementation (GCC, compiled). Same for Python. It would theoretically be possible to write a Python compiler which would have significantly faster runtime performance than its reference implementation (CPython, interpreted).
 
-In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy <<pypy>>, or the C++ interpreter Cling <<cling>>)
+In fact, there are many non-reference implementations of languages out there (like the Just-in-Time compiled Python implementation, PyPy <<pypy>>, or the C++ interpreter Cling <<cling>>).
 
-=== What is Turing completeness?
+=== 2.4 What is Turing completeness?
 
 For us to understand Turing completeness, we need to go back in time. To the 1940s to be precise. Back then, the second world war was at its height, the Nazis seemed undefeatable. No one could predict their strategy. The only way to do it was cracking their encryption algorithm, the "ENIGMA". The challenge seemed so completely out of scope that for a while, British intelligence tried to just guess what the code might be. Until Alan Turing came along and created a computational device that was able to figure out the encryption keys of the "ENIGMA".
 
@@ -153,7 +156,7 @@ NOTE: A Turing complete language can emulate a universal Turing machine.
 
 That also means that two computational devices P and Q are equal if P can simulate Q and Q can simulate P. This is called Turing equivalence.
 
-=== The EBNF (Extended Backus-Naur-Form)
+=== 2.5 The EBNF (Extended Backus-Naur-Form)
 
 Invented by Niklaus Emil Wirth, EBNF (named after John W. Backus and Peter Naur) was meant as a way to describe the grammar of any given language. It is based on the simpler, less advanced Backus-Naur-Form (or BNF).
 
@@ -205,13 +208,15 @@ hex_number =  hex_prefix, ( hex_digit_without_zero, { hex_digit } ) | zero;
 
 For this definition, values like `0x1f`, `0x0`, `20`, `1` and `0`  would be valid, while `01`, `0xr` or `x12` are invalid.
 
-== Different types of programming languages
+<<<
+
+== 3. Different types of programming languages
 
 Before we get into actually creating a programming language, we need to know what kind of language we want. We can generally differentiate three different kinds of programming languages:
 
 NOTE: A programming paradigm is a style of programming. It is a way of thinking about a solution. Programming paradigms do not refer to a specific language, but rather to a type of programming language (to a way to program).
 
-=== Procedural
+=== 3.1 Procedural
 
 According to most people, procedural languages are the most basic form of programming languages. In a procedural language, the programmer describes what the program is supposed to do step-by-step. There are basic procedures, known as subroutines or functions, and more often that not, one will be able to define data structures in a procedural language, but that is as feature-rich as it gets.
 
@@ -221,7 +226,7 @@ According to most people, procedural languages are the most basic form of progra
 * Fortran
 * Bash
 
-=== Object oriented
+=== 3.2 Object oriented
 
 Object oriented programming, OOP for short, builds on top of procedural programming. The central programming paradigm in OOP is based on the concepts of objects. These objects can contain data or procedures. When a procedure is associated with an object, it is referred to as a method.
 
@@ -231,7 +236,9 @@ Object oriented programming, OOP for short, builds on top of procedural programm
 * Java
 * Python
 
-=== Functional
+<<<
+
+=== 3.3 Functional
 
 Functional programming aims to model a program as the evaluation of mathematical functions. Generally, state-changing and mutability of data is avoided. One of the central programming paradigms is currying <<currying>>. Currying, which was invented by Moses Schönfinkel in 1928 and named after Haskell Brooks Curry, a famous mathematician, is about passing data to a function to generate another function as a result. This resulting function can then be used to do other calculations. Since mutability and state-changing is avoided, functions should not have any shared state or side-effects.
 
@@ -241,18 +248,16 @@ Functional programming aims to model a program as the evaluation of mathematical
 * Haskell
 * Clojure
 
-<<<
+== 4. The rules of good language design
 
-== The rules of good language design
-
-=== Simplicity
+=== 4.1 Simplicity
 
 When we talk about simplicity in language design, we mean simple as in that there should be a small number of basic principles. It doesn't matter whether these basic principles themselves are simple. But having too many different paradigms in one language won't make it more powerful. It will make the language harder to use and thus less powerful.
 
 [quote, Robert Virding, On Language Design]
-You might not get all of this year's cool features but it will be easier to understand.
+You might not get all of this years cool features but it will be easier to understand.
 
-=== Consistency
+=== 4.2 Consistency
 
 The basic principle of language consistency is the following: things should always look like what they're doing and things should always look like they fit in. Taking a C-like syntax and putting it into a Python-esque language will look and feel wrong; Merging an object oriented paradigm into a functional language won't work, etc.
 
@@ -268,16 +273,16 @@ def check(x):
 
 ```
 
-=== Syntax
+=== 4.3 Syntax
 
-When starting to use a new programming language, many people complain about the syntax of the language not looking like *their* favourite language. But the truth is that not having the same syntax as another language is not a bad thing. People writing in your language might have to re-learn certain things, but having a unique syntax gives you the flexibility to have unique paradigms and features.  Just ripping off another language's syntax (how popular it might be) also means ripping off that language's flaws (which we want to avoid at all cost).
+When starting to use a new programming language, many people complain about the syntax of the language not looking like *their* favourite language. But the truth is that not having the same syntax as another language is not a bad thing. People writing in your language might have to re-learn certain things, but having a unique syntax gives you the flexibility to have unique paradigms and features.  Just ripping off another languages syntax (how popular it might be) also means ripping off that languages flaws (which we want to avoid at all cost).
 
 The syntax of a language should reflect its semantics and its paradigms. Taking another languages syntax with different semantics and paradigms *will* lead to problems.
 But this doesn't mean that you have to completely change everything when designing a language. Certain keywords like `for`, `while` or `class`, names of primitive types like `int` or `string`, or common methods should stay the same.
 
 This, in no way, means going over the top with ones syntax. Proving alternative syntaxes for the same problem is bad. Not only does it make learning the language harder, it also makes a language less opinionated. Same goes for syntax for special cases.
 
-=== Explicitness
+=== 4.4 Explicitness
 
 We all love not having to write a lot of code and just letting the runtime guess what we could have meant,
 but being in-explicit, just for the sake of writing code that has a couple fewer bytes, is no good.
@@ -295,11 +300,13 @@ if a = 10:
 
 is valid code. And with a decent enough recursive descent parser, we'd be able to make something like this valid. Which certainly doesn't mean that we should.
 
-== How to write a programming language?
+<<<
+
+== 5. How to write a programming language?
 
 Now that we know the rules to good language design, and know what not to do when developing a programming language, we can start with writing our own little language.
 
-=== Pre-requirements
+=== 5.1 Pre-requirements
 
 Before we start writing your programming language, we need to ask ourselves some questions. This will make the process of conceptualizing features and actually developing our language easier and will give us a clear definition as to what we actually want to achieve.
 
@@ -333,9 +340,7 @@ Knowing your user base is always important. Whether you develop an online shop o
 
 While R mostly used by students or scientists, a language like C# is mostly used by software engineers. R doesn't need to have the same enterprise capabilities like C# and C# doesn't need to have the same ability to express complicated mathematical formulae, like R does.
 
-<<<
-
-=== Developing a language
+=== 5.2 Developing a language
 
 ==== Giving the language a name
 
@@ -361,13 +366,13 @@ As previously mentioned, an EBNF has tokens and statements. The lexer parses a s
 
 The parser takes in the lexer output as a stream of tokens and converts them into statements. There are many different types of parser, but the most common one is the recursive descent parser. A recursive descent parser operates as a finite state machine. One of its features is parsing sub-statements while parsing a statement.
 
-== Adding a feature to a language
+== 6. Adding a feature to a language
 
 Adding features to a language, after the fact, is more complicated than it appears to be. Adding too many features might make the language cluttered and unusable. Certain features might not look right in the language (from an aesthetic standpoint, that is) and others might just not be technically possible. The most important part is keeping focus. Focus on what you want your language to be and avoid adding features that don't fit in.
 
 CAUTION: Because there is no feature that is not a limititation on something else, be very restrictive about adding features to a language.
 
-=== Defining a feature
+=== 6.1 Defining a feature
 
 To add a feature, we first need to define it. Say we want to add pipelines to the C# programming language.
 
@@ -391,7 +396,9 @@ Console.ReadLine()
 
 ```
 
-=== Implementing a feature
+<<<
+
+=== 6.2 Implementing a feature
 Because we want to avoid adding unnecessary or half-baked features, we need to first think about really adding a certain feature. This keeps us from losing focus on what's important and adding the wrong features to our language.
 
 .Flowgraph for implementing a new language feature
@@ -445,17 +452,19 @@ digraph g {
 }
 ----
 
-For our new C# feature, this is fairly trivial. Our new language feature does, in fact, fit in the language's look and feel. Therefore, we can implement it.
+For our new C# feature, this is fairly trivial. Our new language feature does, in fact, fit in the languages look and feel. Therefore, we can implement it.
 
 If it didn't fit, we'd have to ask ourselves if the feature was necessary and if there is another way to solve the problem we're solving with this feature (even if said way was syntactly less pleasing). If that were the case, we could either discard the feature or redesign it.
 
 If the feature was necessary, and can simply not be redesigned (this mostly happens because of other  design flaws in a language), we'd have to implement the feature to our best of knowledge and belief.
 
-== Writing our own mini language
+<<<
+
+== 7. Writing our own mini language
 
 We will be writing our own procedural/semi-functional language. It will be called "littl" and its file extension will be ".lit". We will transpile the language into JavaScript.
 
-=== Definiton
+=== 7.1 Definiton
 
 The language isn't really all that powerful. We have variables, which we can declare with either `var`, for normal variables or `var!` for constants and there is shorthand declaration with the `:=` operator (which doesn't require a var keyword). We won't deal with datatypes but rather let JavaScript handle that.
 
@@ -479,8 +488,6 @@ add x y {
 
 Declared like: `for variable in array`
 
-<<<
-
 ===== Example
 
 ```go
@@ -491,6 +498,8 @@ for i in arr {
 }
 
 ```
+
+<<<
 
 ==== Counted for loops
 
@@ -581,7 +590,7 @@ console.log(add3(2))
 
 <<<
 
-=== Setup
+=== 7.2 Setup
 
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
 for both the setup and the programming part. My editor of choice will be VSCode with the following extensions:
@@ -600,7 +609,7 @@ sudo apt install flex bison make gcc g++ -y
 
 ```
 
-=== Lex/Yacc hands on
+=== 7.3 Lex/Yacc hands on
 
 We could write our lexer and parser ourselves but that would be too much work. Therefore we utilize Lex and Yacc. Lex and Yacc are definition languages that serve as a high-level EBNF. They provide a stable framework to build any form of language runtime on.
 
@@ -852,7 +861,7 @@ https://github.com/Azer0s/littl[*littl*]
 
 <<<
 
-== Conclusion
+== 8. Conclusion
 
 Creating programming languages isn't as complicated as it seems. With the right tools and a bit of know-how it becomes fairly trivial.
 
@@ -864,7 +873,7 @@ The test of success in programming language design is being smarter than your us
 <<<
 
 [bibliography]
-== References
+== 9. References
 
 - [[[gcc,1]]] GCC, the GNU Compiler Collection - GNU Project - Free Software Foundation (FSF): https://gcc.gnu.org/
 - [[[roslyn,2]]] dotnet/roslyn: The Roslyn .NET compiler provides C# and Visual Basic languages with rich code analysis APIs: https://github.com/dotnet/roslyn
