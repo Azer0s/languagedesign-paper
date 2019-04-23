@@ -125,7 +125,7 @@ In recent years, people started to implement JIT (or Just-in-Time) compilers int
 
 These JIT compilers can figure out what parts of a program are resource-intensive and then compile these parts of the program (at runtime, meaning while a program is being executed), from bytecode into machine code. Everything else is still being executed in a VM. Whenever the VM needs to call code that has been "JITed", it calls those, now native, functions.
 
-==== Examples
+===== Examples
 
 * *V8* <<v8>>: JavaScript
 * *HHVM* <<hhvm>>: Hack & PHP
@@ -170,7 +170,7 @@ and
 
 <<<
 
-==== Operators
+==== 2.5.1 Operators
 
 * `|` ......... "or" operator. Either left side or right side.
 * `,` ......... Concatenation. Concatenates two values.
@@ -179,14 +179,14 @@ and
 * `" ... "` ... String value.
 * `;` ......... Terminates an operation
 
-==== Tokens
+==== 2.5.2 Tokens
 Tokens are fixed values. They're the smallest unit in an EBNF definition.
 ```ebnf
 zero = "0" ;
 digit_without_zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 ```
 
-==== Statements
+==== 2.5.3 Statements
 
 Statements are a bundle of multiple tokens. Every statement can be broken up into sub-statements and/or tokens.
 ```ebnf
@@ -310,7 +310,7 @@ Now that we know the rules to good language design, and know what not to do when
 
 Before we start writing your programming language, we need to ask ourselves some questions. This will make the process of conceptualizing features and actually developing our language easier and will give us a clear definition as to what we actually want to achieve.
 
-==== Technical aspects
+==== 5.1.1 Technical aspects
 
 ===== What kind of programming language is it?
 
@@ -324,7 +324,7 @@ The question, whether your language should be compiled or interpreted regards yo
 
 For a reference implementation, interpreting a language makes more sense. Interpreters often have a bigger feature set and are easier to debug than compilers, thus making them better for trying out a language. footnote:[Personal opinion]
 
-==== Non-technical aspects
+==== 5.1.2 Non-technical aspects
 
 ===== Why are you writing it?
 
@@ -342,11 +342,11 @@ While R mostly used by students or scientists, a language like C# is mostly used
 
 === 5.2 Developing a language
 
-==== Giving the language a name
+==== 5.2.1 Giving the language a name
 
 As irrelevant as this might sound, the name is an important aspect of every programming language. It should be memorable and easy to pronounce. The file extension you choose for source files should not be taken.
 
-==== Defining the language
+==== 5.2.2 Defining the language
 
 When defining a language, one usually starts by writing an EBNF. This isn't always necessary, but is recommended in most cases.
 
@@ -354,15 +354,15 @@ The core parts of the language are defined first. This includes primitive types,
 
 Define what differentiates your language from other languages, syntax wise. Don't, yet, talk about features.
 
-==== Defining the feature set of the language
+==== 5.2.3 Defining the feature set of the language
 
 After the basic functionality is clear, you can start defining the feature set of your language. Code samples are always welcome. Explain why your users should utilize said feature and why your feature is a better way of solving a problem.
 
-==== Lexer
+==== 5.2.4 Lexer
 
 As previously mentioned, an EBNF has tokens and statements. The lexer parses a string and converts the characters of said string into tokens.
 
-==== Parser
+==== 5.2.5 Parser
 
 The parser takes in the lexer output as a stream of tokens and converts them into statements. There are many different types of parser, but the most common one is the recursive descent parser. A recursive descent parser operates as a finite state machine. One of its features is parsing sub-statements while parsing a statement.
 
@@ -470,7 +470,7 @@ The language isn't really all that powerful. We have variables, which we can dec
 
 Littl also has C-style comparison and mathematical operators. Values can be returned with the `return` keyword.
 
-==== Functions
+==== 7.1.1 Functions
 
 Declared like: `functionName argument1 argument2 ...`
 
@@ -484,7 +484,7 @@ add x y {
 
 ```
 
-==== For loops
+==== 7.1.2 For loops
 
 Declared like: `for variable in array`
 
@@ -501,7 +501,7 @@ for i in arr {
 
 <<<
 
-==== Counted for loops
+==== 7.1.3 Counted for loops
 
 Declared like: `for variableDeclaration; condition; operation`
 
@@ -520,7 +520,7 @@ for ;true; {
 
 ```
 
-==== If condition
+==== 7.1.4 If condition
 
 Declared like: `if condition`
 
@@ -595,13 +595,13 @@ console.log(add3(2))
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
 for both the setup and the programming part. My editor of choice will be VSCode with the following extensions:
 
-* Lex Flex Yacc Bison <<lexflexyaccbison>>
+* Lex/Flex, Yacc/Bison <<lexflexyaccbison>>
 +
 and
 +
 * C/C++ <<cppcode>>
 
-==== Packages
+==== 7.2.1 Packages
 
 ```shell
 
