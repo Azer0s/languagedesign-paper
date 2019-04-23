@@ -1,16 +1,14 @@
 = Language Design
 Ariel Simulevski <ariel@simulevski.at>
 v1.0, 2018-12-31
-:example-caption!:
+:toc: macro
+:math:
 :media: prepress
 :icons: font
 :source-highlighter: rouge
+:stem: latexmath
 
-ifdef::backend-pdf[:imagesoutdir: ../../../build/asciidoc/{backend}/images]
-ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
-
-// this renders a dynamic table of content
-:toc:
+<<<
 
 == Abstract
 
@@ -27,6 +25,7 @@ The list of general purpose programming languages has been growing recently. Wit
 Language design and intelligent language features are now more important than they've ever been. With the amount of languages out there, creating a new language with features that sets it apart and doesn't make it seem "ugly" or "irrelevant" is quite a challenge. This paper will aim to introduce you to language- and language-feature design.
 
 <<<
+
 === What is a programming language?
 
 What many people don't understand is, that a programming language is nothing more than an agreement. An agreement between you, the programmer, and the creator of a given language, that states how a program in the given language has to be written (how the instructions are called, how to write functions, loops, declare variables etc.) so that the runtime understands it.
@@ -50,7 +49,7 @@ and
 <<<
 this:
 
-``` coffeescript
+```coffeescript
 
 *a
 a:=0
@@ -83,6 +82,7 @@ When we speak of runtime levels, we refer to code that runs closer, or further a
 ====
 
 <<<
+
 ==== Compiled
 
 A compiler scans the entire source code and translates it into lower level code. That doesn't always mean converting the source code into machine code, but rather translating the code into a very primitive version of itself. Sometimes, code is compiled into bytecode (primitive code than can be executed in a virtual machine).
@@ -166,6 +166,7 @@ and
 * Statements
 
 <<<
+
 ==== Operators
 
 * `|` ......... "or" operator. Either left side or right side.
@@ -177,7 +178,7 @@ and
 
 ==== Tokens
 Tokens are fixed values. They're the smallest unit in an EBNF definition.
-``` ebnf
+```ebnf
 zero = "0" ;
 digit_without_zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 ```
@@ -185,7 +186,7 @@ digit_without_zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 ==== Statements
 
 Statements are a bundle of multiple tokens. Every statement can be broken up into sub-statements and/or tokens.
-``` ebnf
+```ebnf
 hex_prefix = zero, "x" ;
 digit = zero | digit_without_zero ;
 ```
@@ -194,7 +195,7 @@ Every EBNF definition also has a start point. This starting point is often calle
 
 If we want to define a program that accepts decimal or hexadecimal numbers that don't have leading zeros as input, using our previously defined tokens and statements, our EBNF could look like this:
 
-``` ebnf
+```ebnf
 program = number | hex_number ;
 number = ( digit_without_zero, { digit } ) | zero;
 hex_digit_without_zero = digit_without_zero | "a" | "b" | "c" | "d" | "e" | "f" ;
@@ -241,6 +242,7 @@ Functional programming aims to model a program as the evaluation of mathematical
 * Clojure
 
 <<<
+
 == The rules of good language design
 
 === Simplicity
@@ -284,7 +286,7 @@ A compiler could, in theory, differentiate between an `=` in an assignment and a
 
 That means, that a language could exist where this:
 
-``` python
+```python
 a = 10
 
 if a = 10:
@@ -332,6 +334,7 @@ Knowing your user base is always important. Whether you develop an online shop o
 While R mostly used by students or scientists, a language like C# is mostly used by software engineers. R doesn't need to have the same enterprise capabilities like C# and C# doesn't need to have the same ability to express complicated mathematical formulae, like R does.
 
 <<<
+
 === Developing a language
 
 ==== Giving the language a name
@@ -365,11 +368,12 @@ Adding features to a language, after the fact, is more complicated than it appea
 CAUTION: Because there is no feature that is not a limititation on something else, be very restrictive about adding features to a language.
 
 === Defining a feature
+
 To add a feature, we first need to define it. Say we want to add pipelines to the C# programming language.
 
 We can't implement this feature by utilizing existing functionalities as there are no macros in C#, so we need to define a new operator. Let's take the well known `|>` operator from F#. Now that we know what we're going to add into our language, we need to write a basic EBNF for that.
 
-``` ebnf
+```ebnf
 statements = { statement } ;
 statement =  pipeline | ... ;
 pipeline = statement, "|>", statement ;
@@ -377,7 +381,7 @@ pipeline = statement, "|>", statement ;
 
 With our EBNF ready, we need to write a code sample with our feature as the focus.
 
-``` java
+```java
 
 Console.ReadLine()
     |> File.ReadAllBytes
@@ -476,6 +480,7 @@ add x y {
 Declared like: `for variable in array`
 
 <<<
+
 ===== Example
 
 ```go
@@ -505,7 +510,6 @@ for ;true; {
 }
 
 ```
-
 
 ==== If condition
 
@@ -576,6 +580,7 @@ console.log(add3(2))
 ```
 
 <<<
+
 === Setup
 
 For this example, I'd recomend using a UNIX based or unixoid machine. I'll be using Ubuntu 18.04.1 LTS 64bit
@@ -589,7 +594,7 @@ and
 
 ==== Packages
 
-``` shell
+```shell
 
 sudo apt install flex bison make gcc g++ -y
 
@@ -846,6 +851,7 @@ The entire code for this transpiler can be found on GitHub.
 https://github.com/Azer0s/littl[*littl*]
 
 <<<
+
 == Conclusion
 
 Creating programming languages isn't as complicated as it seems. With the right tools and a bit of know-how it becomes fairly trivial.
@@ -856,6 +862,7 @@ The last hint: listen to what users say they want. Don't implement what users wa
 The test of success in programming language design is being smarter than your users. This is also the case in programming methodology. Perhaps these two are the same subject anyway.
 
 <<<
+
 [bibliography]
 == References
 
